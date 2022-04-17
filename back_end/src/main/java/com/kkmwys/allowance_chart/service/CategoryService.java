@@ -44,7 +44,8 @@ public class CategoryService {
     Category category = categoryRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Category is not found"));
     category.updateInfo(categoryDto);
-    return new CategoryDto(category);
+    Category updatedCategory = categoryRepository.save(category);
+    return new CategoryDto(updatedCategory);
   }
 
   /**

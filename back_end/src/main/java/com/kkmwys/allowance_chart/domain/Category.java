@@ -32,8 +32,8 @@ public class Category {
     this.name = categoryDto.getName();
   }
 
-  public Category updateInfo(CategoryDto categoryDto) {
+  public void updateInfo(CategoryDto categoryDto) {
     this.name = categoryDto.getName();
-    return this;
   }
+
 }
