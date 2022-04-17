@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j2
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryService {
 
@@ -22,6 +24,7 @@ public class CategoryService {
    * @param categoryDto 카테고리 정보
    * @return 저장된 카테고리 정보
    */
+  @Transactional
   public CategoryDto saveCategory(CategoryDto categoryDto) {
     Category savedCategory = categoryRepository.save(new Category(categoryDto));
     return new CategoryDto(savedCategory);
@@ -40,12 +43,12 @@ public class CategoryService {
    * @param categoryDto 업데이트 카테고리 정보
    * @return 업데이트가 진행된 카테고리 정보
    */
+  @Transactional
   public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
     Category category = categoryRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Category is not found"));
     category.updateInfo(categoryDto);
-    Category updatedCategory = categoryRepository.save(category);
-    return new CategoryDto(updatedCategory);
+    return new CategoryDto(category);
   }
 
   /**
@@ -54,6 +57,7 @@ public class CategoryService {
    * @param id 카테고리 ID
    * @return 삭제 성공 여부
    */
+  @Transactional
   public boolean deleteCategory(Long id) {
     Category category = null;
     try {
