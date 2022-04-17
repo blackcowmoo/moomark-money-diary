@@ -15,10 +15,8 @@ public class CategoryDto {
   private Long id;
   private String name;
 
-  public static CategoryDto convertToDto(Category category) {
-    return CategoryDto.builder()
-        .id(category.getId())
-        .name(category.getName())
-        .build();
+  public CategoryDto (Category category) {
+    this.id = category.getId();
+    this.name = category.getName();
   }
 }
