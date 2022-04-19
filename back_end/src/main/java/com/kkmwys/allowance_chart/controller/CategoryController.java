@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class CategoryController {
     return ResponseEntity.ok(categoryService.getCategoryList());
   }
 
-  @Operation(summary = "Get category list", description = "Get category list")
+  @Operation(summary = "Save category info", description = "Save category info")
   @ApiResponse(responseCode = "200", description = "OK !!")
   @ApiResponse(responseCode = "400", description = "BAD REQUEST !!")
   @ApiResponse(responseCode = "404", description = "NOT FOUND !!")
@@ -42,7 +43,7 @@ public class CategoryController {
     return ResponseEntity.ok(categoryService.saveCategory(categoryDto));
   }
 
-  @Operation(summary = "Get category list", description = "Get category list")
+  @Operation(summary = "Update category info", description = "Update category info")
   @ApiResponse(responseCode = "200", description = "OK !!")
   @ApiResponse(responseCode = "400", description = "BAD REQUEST !!")
   @ApiResponse(responseCode = "404", description = "NOT FOUND !!")
@@ -51,5 +52,15 @@ public class CategoryController {
   public ResponseEntity<CategoryDto> updateCategoryInfo(@PathVariable Long id,
       @RequestBody CategoryDto categoryDto) {
     return ResponseEntity.ok(categoryService.updateCategory(id, categoryDto));
+  }
+
+  @Operation(summary = "Delete category info", description = "Delete category info")
+  @ApiResponse(responseCode = "200", description = "OK !!")
+  @ApiResponse(responseCode = "400", description = "BAD REQUEST !!")
+  @ApiResponse(responseCode = "404", description = "NOT FOUND !!")
+  @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
+  @DeleteMapping("/info/{id}")
+  public ResponseEntity<Boolean> deleteCategoryInfo(@PathVariable Long id) {
+    return ResponseEntity.ok(categoryService.deleteCategory(id));
   }
 }

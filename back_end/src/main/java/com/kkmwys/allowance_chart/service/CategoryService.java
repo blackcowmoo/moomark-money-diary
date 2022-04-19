@@ -63,6 +63,8 @@ public class CategoryService {
     try {
       category = categoryRepository.findById(id)
           .orElseThrow(() -> new RuntimeException("Category is not found"));
+
+
     } catch (RuntimeException e) {
       e.printStackTrace();
       return false;
