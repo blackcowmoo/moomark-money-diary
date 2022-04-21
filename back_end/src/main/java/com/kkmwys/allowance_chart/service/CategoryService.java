@@ -69,7 +69,7 @@ public class CategoryService {
    */
   @Transactional
   public boolean deleteCategory(Long id) {
-    Category category = null;
+    Category category;
     try {
       category = categoryRepository.findById(id)
           .orElseThrow(
