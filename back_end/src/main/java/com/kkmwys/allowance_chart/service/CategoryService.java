@@ -2,8 +2,11 @@ package com.kkmwys.allowance_chart.service;
 
 import com.kkmwys.allowance_chart.data.dto.CategoryDto;
 import com.kkmwys.allowance_chart.domain.Category;
+import com.kkmwys.allowance_chart.exception.CategoryException;
+import com.kkmwys.allowance_chart.exception.code.CategoryErrorCode;
 import com.kkmwys.allowance_chart.repository.CategoryRepository;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -45,9 +48,16 @@ public class CategoryService {
    */
   @Transactional
   public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
-    Category category = categoryRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Category is not found"));
-    category.updateInfo(categoryDto);
+    Category category = null;
+    try {
+      category = categoryRepository.findById(id)
+          .orElseThrow(
+              () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
+                  CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
+    } catch (CategoryException e) {
+      e.printStackTrace();
+    }
+    Objects.requireNonNull(category).updateInfo(categoryDto);
     return new CategoryDto(category);
   }
 
@@ -62,10 +72,10 @@ public class CategoryService {
     Category category = null;
     try {
       category = categoryRepository.findById(id)
-          .orElseThrow(() -> new RuntimeException("Category is not found"));
-
-
-    } catch (RuntimeException e) {
+          .orElseThrow(
+              () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
+                  CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
+    } catch (CategoryException e) {
       e.printStackTrace();
       return false;
     }
