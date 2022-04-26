@@ -27,10 +27,28 @@ public class ChartData {
   @OneToMany(mappedBy = "chartData")
   private Set<DataCategory> dataCategory;
 
-  private int usedMoney;
+  private int money;
 
-  private String usedItems;
+  private String itemName;
+
+  private String memo;
 
   private LocalDateTime localDateTime;
 
+  public void updateChartData(ChartDataDto chartDataDto) {
+    this.money = chartDataDto.getMoney();
+    this.itemName = chartDataDto.getItemName();
+  }
+
+  public void addCategory(DataCategory dataCategory) {
+    this.dataCategory.add(dataCategory);
+    dataCategory.setChartData(this);
+  }
+
+  public ChartData (ChartDataDto chartDataDto) {
+    this.money = chartDataDto.getMoney();
+    this.localDateTime = chartDataDto.getLocalDateTime();
+    this.memo = chartDataDto.getMemo();
+    this.itemName = chartDataDto.getItemName();
+  }
 }
