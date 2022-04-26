@@ -47,12 +47,16 @@ public class ChartDataService {
     }
 
     ChartData chartData = ChartData.builder()
-        .dataCategory(dataCategorySet)
         .itemName(chartDataDto.getItemName())
         .memo(chartDataDto.getMemo())
         .localDateTime(chartDataDto.getLocalDateTime())
         .money(chartDataDto.getMoney())
         .build();
+
+    for(var dataCategory : dataCategorySet) {
+      dataCategory.setChartData(chartData);
+      dataCategoryRepository.save(dataCategory);
+    }
 
     return new ChartDataDto(chartDataRepository.save(chartData));
   }
