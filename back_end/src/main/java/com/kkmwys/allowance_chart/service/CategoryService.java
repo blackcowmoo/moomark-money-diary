@@ -28,14 +28,20 @@ public class CategoryService {
    * @return 저장된 카테고리 정보
    */
   @Transactional
-  public CategoryDto saveCategory(CategoryDto categoryDto) {
+  public CategoryDto saveCategory(CategoryDto categoryDto) throws CategoryException {
+
+    if (categoryRepository.findCategoryByName(categoryDto.getName()).isPresent()) {
+      throw new CategoryException(CategoryErrorCode.ALREADY_EXIST_CATEGORY.getErrorCode(),
+          CategoryErrorCode.ALREADY_EXIST_CATEGORY.getMsg());
+    }
+
     Category savedCategory = categoryRepository.save(new Category(categoryDto));
-    return new CategoryDto(savedCategory);
+    return CategoryDto.convertToDto(savedCategory);
   }
 
   public List<CategoryDto> getCategoryList() {
     List<Category> categories = categoryRepository.findAll();
-    return categories.stream().map(CategoryDto::new).collect(Collectors.toList());
+    return categories.stream().map(CategoryDto::convertToDto).collect(Collectors.toList());
   }
 
 
@@ -50,15 +56,14 @@ public class CategoryService {
   public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
     Category category = null;
     try {
-      category = categoryRepository.findById(id)
-          .orElseThrow(
-              () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
-                  CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
+      category = categoryRepository.findById(id).orElseThrow(
+          () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
+              CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
     } catch (CategoryException e) {
       e.printStackTrace();
     }
     Objects.requireNonNull(category).updateInfo(categoryDto);
-    return new CategoryDto(category);
+    return CategoryDto.convertToDto(category);
   }
 
   /**
@@ -71,10 +76,9 @@ public class CategoryService {
   public boolean deleteCategory(Long id) {
     Category category;
     try {
-      category = categoryRepository.findById(id)
-          .orElseThrow(
-              () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
-                  CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
+      category = categoryRepository.findById(id).orElseThrow(
+          () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
+              CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
     } catch (CategoryException e) {
       e.printStackTrace();
       return false;

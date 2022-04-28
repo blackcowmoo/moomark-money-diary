@@ -1,6 +1,7 @@
 package com.kkmwys.allowance_chart.controller;
 
 import com.kkmwys.allowance_chart.data.dto.CategoryDto;
+import com.kkmwys.allowance_chart.exception.CategoryException;
 import com.kkmwys.allowance_chart.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,7 +41,12 @@ public class CategoryController {
   @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
   @PostMapping("/info")
   public ResponseEntity<CategoryDto> saveCategoryInfo(@RequestBody CategoryDto categoryDto) {
-    return ResponseEntity.ok(categoryService.saveCategory(categoryDto));
+    try {
+      return ResponseEntity.ok(categoryService.saveCategory(categoryDto));
+    } catch (CategoryException e) {
+      e.printStackTrace();
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Operation(summary = "Update category info", description = "Update category info")

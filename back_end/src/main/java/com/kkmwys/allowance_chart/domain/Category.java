@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @Entity
 @Builder
@@ -36,4 +38,10 @@ public class Category {
     this.name = categoryDto.getName();
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "(" +
+        "id = " + id +
+        "name = " + name + ")";
+  }
 }
