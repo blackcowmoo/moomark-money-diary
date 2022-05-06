@@ -12,14 +12,15 @@ import com.kkmwys.allowance_chart.exception.code.ChartDataErrorCode;
 import com.kkmwys.allowance_chart.repository.CategoryRepository;
 import com.kkmwys.allowance_chart.repository.ChartDataRepository;
 import com.kkmwys.allowance_chart.repository.DataCategoryRepository;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,15 +36,17 @@ public class ChartDataService {
   public ChartDataDto saveChartData(ChartDataDto chartDataDto)
       throws CategoryException {
 
-    Set<DataCategory> dataCategorySet = new HashSet<>();
+    List<DataCategory> dataCategoryList = new ArrayList<>();
     // check category
-    for (CategoryDto categoryDto : chartDataDto.getCategoryDtoSet()) {
+    for (CategoryDto categoryDto : chartDataDto.getDataCategories()) {
       Category category = categoryRepository.findById(categoryDto.getId()).orElseThrow(
           () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
               CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
 
-      dataCategorySet.add(DataCategory.builder()
-          .category(category).build());
+      DataCategory dataCategory = DataCategory.builder()
+          .category(category)
+          .build();
+      dataCategoryList.add(dataCategory);
     }
 
     ChartData chartData = ChartData.builder()
@@ -53,19 +56,26 @@ public class ChartDataService {
         .money(chartDataDto.getMoney())
         .build();
 
-    for(var dataCategory : dataCategorySet) {
+    for (DataCategory dataCategory : dataCategoryList) {
       dataCategory.setChartData(chartData);
       dataCategoryRepository.save(dataCategory);
     }
 
-    return new ChartDataDto(chartDataRepository.save(chartData));
+    chartData.setDataCategory(dataCategoryList);
+    ChartData savedChartData = chartDataRepository.save(chartData);
+    return new ChartDataDto(savedChartData);
   }
 
   /***** GET *****/
 
   public List<ChartDataDto> getAllChartData() {
     List<ChartData> chartDataList = chartDataRepository.findAll();
-    return chartDataList.stream().map(ChartDataDto::new).collect(Collectors.toList());
+    List<ChartDataDto> resultList = new ArrayList<>();
+    for (var chartData : chartDataList) {
+      resultList.add(new ChartDataDto(chartData));
+    }
+
+    return resultList;
   }
 
   public ChartDataDto getChartDataById(Long id) throws ChartDataException {
@@ -73,7 +83,10 @@ public class ChartDataService {
         () -> new ChartDataException(ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getErrorCode(),
             ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getMsg())
     );
-
+    log.info("chart_data information {}", chartData.toString());
+    for (var dataCategory : chartData.getDataCategories()) {
+      log.info("Category information : {}", dataCategory.getCategory().toString());
+    }
     return new ChartDataDto(chartData);
   }
 

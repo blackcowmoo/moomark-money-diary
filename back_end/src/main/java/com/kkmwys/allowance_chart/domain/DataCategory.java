@@ -22,10 +22,10 @@ public class DataCategory {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private ChartData chartData;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   private Category category;
 
   public static DataCategory createDataCategory(ChartData chartData, Category category) {
@@ -35,12 +35,32 @@ public class DataCategory {
     return dataCategory;
   }
 
+  public static DataCategory createDataCategory(ChartData chartData) {
+    DataCategory dataCategory = new DataCategory();
+    dataCategory.setChartData(chartData);
+    return dataCategory;
+  }
+
+  public static DataCategory createDataCategory(Category category) {
+    DataCategory dataCategory = new DataCategory();
+    dataCategory.setCategory(category);
+    return dataCategory;
+  }
+
   public void setChartData(ChartData chartData) {
     this.chartData = chartData;
+    chartData.addDataCategory(this);
   }
 
   public void setCategory(Category category) {
     this.category = category;
+    category.addDataCategory(this);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "(" +
+        "id = " + id + ")";
   }
 }
 

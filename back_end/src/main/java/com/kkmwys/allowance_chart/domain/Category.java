@@ -38,6 +38,10 @@ public class Category {
     this.name = categoryDto.getName();
   }
 
+  public void addDataCategory(DataCategory dataCategory) {
+    this.dataCategory.add(dataCategory);
+  }
+
   @Override
   public String toString() {
     return getClass().getSimpleName() + "(" +

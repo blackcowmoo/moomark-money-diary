@@ -2,7 +2,8 @@ package com.kkmwys.allowance_chart.domain;
 
 import com.kkmwys.allowance_chart.data.dto.ChartDataDto;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ChartData {
 
   @Id
@@ -25,7 +24,7 @@ public class ChartData {
   private Long id;
 
   @OneToMany(mappedBy = "chartData")
-  private Set<DataCategory> dataCategory;
+  private List<DataCategory> dataCategories;
 
   private int money;
 
@@ -35,20 +34,44 @@ public class ChartData {
 
   private LocalDateTime localDateTime;
 
+  @Builder
+  public ChartData(Long id, int money, String itemName, String memo, LocalDateTime localDateTime){
+    this.id = id;
+    this.money = money;
+    this.itemName = itemName;
+    this.memo = memo;
+    this.localDateTime = localDateTime;
+    this.dataCategories = new ArrayList<>();
+  }
+
+  public void setDataCategory(List<DataCategory> dataCategory) {
+    this.dataCategories = dataCategory;
+  }
+
   public void updateChartData(ChartDataDto chartDataDto) {
     this.money = chartDataDto.getMoney();
     this.itemName = chartDataDto.getItemName();
   }
 
-  public void addCategory(DataCategory dataCategory) {
-    this.dataCategory.add(dataCategory);
-    dataCategory.setChartData(this);
+  public void addDataCategory(DataCategory dataCategory) {
+    this.dataCategories.add(dataCategory);
   }
 
-  public ChartData (ChartDataDto chartDataDto) {
+  public ChartData(ChartDataDto chartDataDto) {
     this.money = chartDataDto.getMoney();
     this.localDateTime = chartDataDto.getLocalDateTime();
     this.memo = chartDataDto.getMemo();
     this.itemName = chartDataDto.getItemName();
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "(" +
+        "id = " + id + ", " +
+        "money = " + money + ", " +
+        "itemName = " + itemName + ", " +
+        "memo = " + memo + ", " +
+        "localDateTime = " + localDateTime + ")";
+  }
 }
+

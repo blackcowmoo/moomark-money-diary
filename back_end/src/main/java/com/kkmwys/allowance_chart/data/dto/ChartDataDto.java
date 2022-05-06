@@ -3,8 +3,8 @@ package com.kkmwys.allowance_chart.data.dto;
 import com.kkmwys.allowance_chart.domain.ChartData;
 import com.kkmwys.allowance_chart.domain.DataCategory;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class ChartDataDto {
 
   private Long id;
-  private Set<CategoryDto> categoryDtoSet;
+  private List<CategoryDto> dataCategories = new ArrayList<>();
   private int money;
   private String itemName;
   private String memo;
@@ -30,11 +30,9 @@ public class ChartDataDto {
     this.money = chartData.getMoney();
     this.memo = chartData.getMemo();
     this.localDateTime = chartData.getLocalDateTime();
-    this.categoryDtoSet = chartData.getDataCategory().stream()
+    this.dataCategories = chartData.getDataCategories().stream()
         .map(DataCategory::getCategory)
-        .filter(Objects::nonNull)
-        .map(CategoryDto::new)
-        .collect(Collectors.toSet());
+        .map(CategoryDto::convertToDto)
+        .collect(Collectors.toList());
   }
-
 }
