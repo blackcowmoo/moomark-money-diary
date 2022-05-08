@@ -1,44 +1,42 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-toolbar-title class="font-weight-black headline">KKMYWS</v-toolbar-title>
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
-    </v-main>
-  </v-app>
+  <div id="app">
+    <HeaderComponent />
+    <!-- <HelloWorld msg="Welcomd"/> -->
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import HeaderComponent from './components/HeaderComponent.vue';
 
 export default {
   name: 'App',
-
   components: {
-    HelloWorld,
+    HeaderComponent,
   },
-
-  data: () => ({
-    //
-  }),
 };
 </script>
+
+<style lang="scss">
+@import 'bootstrap/scss/bootstrap';
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+</style>
