@@ -4,9 +4,7 @@
         <table class="table table-striped" id="tableComponent">
           <thead>
               <tr>
-                <th scope="col">TEST</th>
-                <th scope="col">QWER</th>
-                <th v-for='field in fields' :key='field' @click="sortTable(field)">
+                <th scope="col" v-for='field in fields' :key='field' @click="sortTable(field)">
                   {{field}}
                   <i class="bi bi-sort-alpha-down" aria-label="Sort Icon" ></i>
                 </th>
@@ -22,16 +20,28 @@
     </div>
 </template>
 
-<script>
+<script lang="js">
 import axios from 'axios';
 
 export default {
   name: 'TableComponent',
   data() {
     return {
-      fields: ['first_name', 'last_name', 'age'],
+      fields: ['title', 'last_name', 'age'],
       items: [
-        { age: 40, first_name: 'name' },
+        {
+          dataCategories: [
+            {
+              id: 0,
+              name: 'string',
+            },
+          ],
+          id: 0,
+          itemName: 'string',
+          localDateTime: '2022-05-17T14:17:43.223Z',
+          memo: 'string',
+          money: 0,
+        },
       ],
     };
   },
@@ -39,7 +49,7 @@ export default {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const vm = this;
 
-    axios.get('http://localhost:8080').then((response) => {
+    axios.get('http://localhost:7070/chart/data/all').then((response) => {
       console.log(response);
       vm.items = response.data;
     }).catch((error) => {
