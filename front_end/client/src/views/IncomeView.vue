@@ -1,6 +1,19 @@
 /* eslint-disable indent */
 <template>
     <div class="income">
+
+        <MyModal @close="closeModal" v-if="modal">
+      <!-- default 슬롯 콘텐츠 -->
+          <p>Vue.js Modal Window!</p>
+          <div><input v-model="message"></div>
+      <!-- /default -->
+      <!-- footer 슬롯 콘텐츠 -->
+          <template slot="footer">
+            <button @click="doSend">제출</button>
+          </template>
+           <!-- /footer -->
+        </MyModal>
+
         <table class="table table-striped" id="tableComponent">
           <thead>
               <tr>
@@ -22,6 +35,8 @@
 
 <script lang="js">
 import axios from 'axios';
+import categoryModal from '@/components/CategoryListModalComponent.vue';
+
 
 export default {
   name: 'TableComponent',
