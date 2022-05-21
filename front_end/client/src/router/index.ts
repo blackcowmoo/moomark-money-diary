@@ -20,6 +20,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'income',
     component: () => import('../views/IncomeView.vue'),
   },
+  {
+    path: '/category/list',
+    name: 'category',
+    component: () => import('../views/CategoryListView.vue'),
+  },
+  {
+    path: '/category/list/add',
+    name: 'addcategory',
+    component: () => import('../views/AddCategoryView'),
+  },
 ];
 
 const router = createRouter({
