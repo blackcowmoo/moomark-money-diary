@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChartDataDto {
@@ -24,6 +23,7 @@ public class ChartDataDto {
   private String memo;
   private LocalDateTime localDateTime;
 
+  @Builder
   public ChartDataDto(ChartData chartData) {
     this.id = chartData.getId();
     this.itemName = chartData.getItemName();
