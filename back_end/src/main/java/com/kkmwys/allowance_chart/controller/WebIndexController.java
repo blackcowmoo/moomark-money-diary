@@ -16,5 +16,7 @@ public class WebIndexController {
     return "/index";
   }
 
+  @GetMapping("/income")
+  public String getIncomePage() { return "/income"; }
 
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Allowance Chart_Income</title>
+  <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{css/templatemo-style.css}">
+  <link rel="stylesheet" th:href="@{fontawesome/css/all.min.css}">
+</head>
+<body>
+<div id="loader-wrapper">
+  <div id="loader"></div>
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+</div>
+
+<!--nav bar-->
+<div th:replace="/navbar::nav"></div>
+
+<!--content-->
+<div class="container-fluid tm-container-content tm-mt-60">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h2 class="col-12 tm-text-primary">
+        Income_Chart
+      </h2>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+            <th>Index</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Edit</th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+<script th:src="@{js/plugins.js}"></script>
+<script>
+  $(window).on("load", function () {
+    $('body').addClass('loaded');
+  });
+</script>
+</html>
