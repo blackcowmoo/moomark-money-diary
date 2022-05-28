@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,12 +56,6 @@ public class ChartData {
     this.dataCategories.add(dataCategory);
   }
 
-  public ChartData(ChartDataDto chartDataDto) {
-    this.money = chartDataDto.getMoney();
-    this.localDateTime = chartDataDto.getLocalDateTime();
-    this.memo = chartDataDto.getMemo();
-    this.itemName = chartDataDto.getItemName();
-  }
 
   @Override
   public String toString() {

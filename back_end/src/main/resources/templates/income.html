@@ -6,6 +6,12 @@
   <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{css/templatemo-style.css}">
   <link rel="stylesheet" th:href="@{fontawesome/css/all.min.css}">
+  <link rel="stylesheet" th:href="@{vendor/css/core.css}">
+  <link rel="stylesheet" th:href="@{fonts/boxicons.scss}">
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+  />
 </head>
 <body>
 <div id="loader-wrapper">
@@ -27,16 +33,44 @@
     </div>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
           <thead>
           <tr>
             <th>Index</th>
             <th>Title</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Edit</th>
+            <th>Actions</th>
           </tr>
           </thead>
+          <tbody class="table-border-bottom-0">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);">
+                    <i class="bx bx-edit-alt me-1"></i>
+                    Edit
+                  </a>
+                  <a class="dropdown-item" href="javascript:void(0);">
+                    <i class="bx bx-trash me-1"></i>
+                    Delete
+                  </a>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
+          </tbody>
         </table>
       </div>
     </div>
