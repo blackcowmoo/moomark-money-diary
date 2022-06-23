@@ -86,58 +86,6 @@
 <!--nav bar-->
 <div th:replace="/navbar::nav"></div>
 <!--content-->
-<!--<div class="container-fluid tm-container-content tm-mt-60">-->
-<!--  <div class="card shadow col-lg-4 col-12 mb-5">-->
-<!--    <div class="card-header col-lg-4 col-12 mb-5">-->
-<!--      <h2 class="col-12 tm-text-primary">-->
-<!--        category-->
-<!--      </h2>-->
-<!--    </div>-->
-<!--    <div class="col-12 d-flex justify-content-end align-items-md-end">-->
-<!--      <a id="popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"-->
-<!--         style="padding:12px 20px 14px; margin-left: 20px"></a>-->
-<!--    </div>-->
-<!--    <div class="card-body">-->
-<!--      <div class="table-responsive">-->
-<!--        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">-->
-<!--          <thead>-->
-<!--          <tr>-->
-<!--            <th>Index</th>-->
-<!--            <th>Category_Type</th>-->
-<!--          </tr>-->
-<!--          </thead>-->
-<!--          <tbody class="table-border-bottom-0">-->
-<!--          <tr>-->
-<!--            <td></td>-->
-<!--            <td></td>-->
-<!--            <td></td>-->
-<!--            <td></td>-->
-<!--            <td>-->
-<!--              <div class="dropdown">-->
-<!--                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"-->
-<!--                        data-bs-toggle="dropdown">-->
-<!--                  <i class="fa-solid fa-ellipsis"></i>-->
-<!--                </button>-->
-<!--                <div class="dropdown-menu">-->
-<!--                  <a class="dropdown-item" href="javascript:void(0);">-->
-<!--                    <i class="bx bx-edit-alt me-1"></i>-->
-<!--                    Edit-->
-<!--                  </a>-->
-<!--                  <a class="dropdown-item" href="javascript:void(0);">-->
-<!--                    <i class="bx bx-trash me-1"></i>-->
-<!--                    Delete-->
-<!--                  </a>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </td>-->
-<!--          </tr>-->
-<!--          </tbody>-->
-<!--        </table>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  -->
-
 <div class="container-fluid tm-mt-60">
   <div class="row tm-mb-50">
     <div class="col-lg-4 col-12 mb-5">
@@ -145,7 +93,7 @@
         <h2 class="tm-text-primary -align-left">Income_Category</h2>
       </div>
       <div class="d-flex justify-content-end float-right">
-        <a id="popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
+        <a id="income_popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
            style="padding:12px 20px 14px; margin-left: 20px"></a>
       </div>
       <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -182,21 +130,88 @@
         </tbody>
       </table>
     </div>
+
+    <div class="col-lg-4 col-12 mb-5">
+      <div class="d-flex justify-content-end float-left">
+        <h2 class="tm-text-primary -align-left">Spending_Category</h2>
+      </div>
+      <div class="d-flex justify-content-end float-right">
+        <a id="spending_popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
+           style="padding:12px 20px 14px; margin-left: 20px"></a>
+      </div>
+      <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+        <tr>
+          <th>Index</th>
+          <th>Category_Type</th>
+          <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+        <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="dropdown">
+              <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                      data-bs-toggle="dropdown">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0);">
+                  <i class="bx bx-edit-alt me-1"></i>
+                  Edit
+                </a>
+                <a class="dropdown-item" href="javascript:void(0);">
+                  <i class="bx bx-trash me-1"></i>
+                  Delete
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>
 <!-- Modal Page -->
-<div id="modal" class="modal-overlay">
+<div id="income_modal" class="modal-overlay">
   <div class="modal-window">
     <div class="title tm-text-primary">
       <h2>EDIT</h2>
     </div>
     <div class="close-area">
-      <a id="modal_close_btn" class="modal_close_btn">exit</a>
+      <a id="income_modal_close_btn" class="modal_close_btn">exit</a>
+    </div>
+    <div class="content">
+      <form id="income_contact-form" action="" method="POST" class="tm-contact-form mx-auto">
+        <div class="form-group">
+          <input type="text" id="income_type" name="income_type" class="form-control rounded-0" placeholder="Type"
+                 required/>
+        </div>
+        <div class="form-group tm-text-right">
+          <button type="button" class="btn btn-primary" onclick="saveIncomeCategory()">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="spending_modal" class="modal-overlay">
+  <div class="modal-window">
+    <div class="title tm-text-primary">
+      <h2>EDIT</h2>
+    </div>
+    <div class="close-area">
+      <a id="spending_modal_close_btn" class="modal_close_btn">exit</a>
     </div>
     <div class="content">
       <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">
         <div class="form-group">
-          <input type="text" id="type" name="type" class="form-control rounded-0" placeholder="Type" required/>
+          <input type="text" id="spending_type" name="spending_type" class="form-control rounded-0" placeholder="Type"
+                 required/>
         </div>
         <div class="form-group tm-text-right">
           <button type="button" class="btn btn-primary" onclick="saveCategory()">Submit</button>
@@ -208,9 +223,24 @@
 </body>
 <script th:src="@{js/plugins.js}"></script>
 <script>
-  function saveCategory() {
+  function saveIncomeCategory() {
     const dataBean = {
-      "name": document.getElementById('type').value
+      "name": document.getElementById('income_type').value
+    };
+
+    $.ajax({
+      url: '/category/info',
+      contentType: 'application/json',
+      type: 'post',
+      data: JSON.stringify(dataBean),
+    }).done(function (fragment) {
+      console.log("success");
+    });
+  }
+
+  function saveSpendingCategory() {
+    const dataBean = {
+      "name": document.getElementById('spending_type').value
     };
 
     $.ajax({
@@ -228,11 +258,16 @@
   });
 
   const modal = document.getElementById('modal');
-  const editBtn = document.getElementById('popup_open_btn');
+  const income_category_edit_btn = document.getElementById('income_popup_open_btn');
+  const spending_category_edit_btn = document.getElementById('spending_popup_open_btn');
   const modalCloseBtn = document.getElementById('modal_close_btn');
 
-  editBtn.addEventListener('click', ev => {
+  income_category_edit_btn.addEventListener('click', ev => {
     modal.style.display = 'flex';
+  })
+
+  spending_category_edit_btn.addEventListener('click', ev => {
+
   })
 
   modalCloseBtn.addEventListener('click', ev => {
