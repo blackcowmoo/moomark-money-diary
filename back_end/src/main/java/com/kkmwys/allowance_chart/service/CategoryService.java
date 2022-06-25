@@ -44,6 +44,11 @@ public class CategoryService {
     return categories.stream().map(CategoryDto::convertToDto).collect(Collectors.toList());
   }
 
+  public List<CategoryDto> getCategoryListByType(String type) {
+    List<Category> categories = categoryRepository.findCategoriesByType(type);
+    return categories.stream().map(CategoryDto::convertToDto).collect(Collectors.toList());
+  }
+
 
   /**
    * 카테고리 정보 업데이트 함수

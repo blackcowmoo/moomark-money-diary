@@ -21,7 +21,7 @@ public class CategoryDto {
 
   private Long id;
   private String name;
-
+  private String type;
   public static CategoryDto convertToDto(Category category) {
     CategoryDto convertData = ModelMapperUtils.getModelMapper().map(category, CategoryDto.class);
     log.info("convertData : {}", convertData.toString());

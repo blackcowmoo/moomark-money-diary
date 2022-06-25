@@ -34,6 +34,26 @@ public class CategoryController {
     return ResponseEntity.ok(categoryService.getCategoryList());
   }
 
+  @Operation(summary = "Get category list by income", description = "Get category list by income")
+  @ApiResponse(responseCode = "200", description = "OK !!")
+  @ApiResponse(responseCode = "400", description = "BAD REQUEST !!")
+  @ApiResponse(responseCode = "404", description = "NOT FOUND !!")
+  @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
+  @GetMapping("/list/income")
+  public ResponseEntity<List<CategoryDto>> getIncomeCategoryDtoList() {
+    return ResponseEntity.ok(categoryService.getCategoryListByType("income"));
+  }
+
+  @Operation(summary = "Get category list by spending", description = "Get category list by spending")
+  @ApiResponse(responseCode = "200", description = "OK !!")
+  @ApiResponse(responseCode = "400", description = "BAD REQUEST !!")
+  @ApiResponse(responseCode = "404", description = "NOT FOUND !!")
+  @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
+  @GetMapping("/list/spending")
+  public ResponseEntity<List<CategoryDto>> getSpendingCategoryDtoList() {
+    return ResponseEntity.ok(categoryService.getCategoryListByType("spending"));
+  }
+
   @Operation(summary = "Save category info", description = "Save category info")
   @ApiResponse(responseCode = "200", description = "OK !!")
   @ApiResponse(responseCode = "400", description = "BAD REQUEST !!")

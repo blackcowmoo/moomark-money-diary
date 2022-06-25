@@ -17,6 +17,18 @@ public class WebIndexController {
   }
 
   @GetMapping("/income")
-  public String getIncomePage() { return "/income"; }
+  public String getIncomePage() {
+    return "/income";
+  }
+
+  @GetMapping("/edit")
+  public String getEditPage() {
+    return "/edit";
+  }
+
+  @GetMapping("/config")
+  public String getSettingPage() {
+    return "/config";
+  }
 
 }
