@@ -169,21 +169,25 @@
 <script>
   function saveIncomeCategory() {
     const dataBean = {
-      "name": document.getElementById('income_type').value
+      "name": document.getElementById('income_type').value,
+      "type": "income"
     };
-    if(!dataBean.name.length) {
+    console.log(dataBean);
+    if (!dataBean.name.length) {
       alert('카테고리 값을 입력바랍니다.');
       return;
     }
     saveCategory(dataBean);
   }
-
   function saveSpendingCategory() {
-    const dataBean = {
-      "name": document.getElementById('spending_type').value
-    };
 
-    if(!dataBean.name.length) {
+    const dataBean = {
+      "name": document.getElementById('spending_type').value,
+      "type": "spending"
+    };
+    console.log(dataBean);
+
+    if (!dataBean.name.length) {
       alert('카테고리 값을 입력바랍니다.');
       return;
     }

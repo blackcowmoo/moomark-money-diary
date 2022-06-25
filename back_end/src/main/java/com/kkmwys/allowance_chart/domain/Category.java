@@ -33,6 +33,7 @@ public class Category {
   public Category(CategoryDto categoryDto) {
     this.id = categoryDto.getId();
     this.name = categoryDto.getName();
+    this.type = categoryDto.getType();
   }
 
   public void updateInfo(CategoryDto categoryDto) {
