@@ -44,9 +44,9 @@
         </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-        <tr>
-          <td></td>
-          <td></td>
+        <tr th:each="incomecategory : ${incomeCategoryList}">
+          <td th:text="${incomecategory.getId()}"></td>
+          <td th:text="${incomecategory.getName()}"></td>
           <td>
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -167,6 +167,19 @@
 </body>
 <script th:src="@{js/plugins.js}"></script>
 <script>
+  function getIncomeCategory() {
+    $.ajax({
+      url: '/category/list/income',
+      contentType: 'application/json',
+      type: 'get',
+      data: JSON.stringify(data),
+      dataType: 'json',
+      success: function (data) {
+
+      }
+    });
+  }
+
   function saveIncomeCategory() {
     const dataBean = {
       "name": document.getElementById('income_type').value,
