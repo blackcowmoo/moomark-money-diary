@@ -36,12 +36,7 @@ public class WebIndexController {
   }
 
   @GetMapping("/config")
-  public String getSettingPage(Model model) {
-    List<CategoryDto> incomeCategoryList =  categoryService.getCategoryListByType("income");
-    List<CategoryDto> spendingCategoryList = categoryService.getCategoryListByType("spending");
-
-    model.addAttribute("incomeCategoryList", incomeCategoryList);
-    model.addAttribute("spendingCategoryList", spendingCategoryList);
+  public String getSettingPage() {
     return "/config";
   }
 
