@@ -12,7 +12,7 @@
   <link rel="stylesheet" th:href="@{fonts/boxicons.scss}">
   <link
       rel="stylesheet"
-      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css}"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css}"
   />
 </head>
 <body>
@@ -35,7 +35,7 @@
         <a id="income_popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
            style="padding:12px 20px 14px; margin-left: 20px"></a>
       </div>
-      <table class="table table-striped" id="income_table" width="100%" cellspacing="0">
+      <table class="table table-striped" id="income_table">
         <thead>
         <tr>
           <th>Index</th>
@@ -44,28 +44,6 @@
         </tr>
         </thead>
         <tbody class="table-border-bottom-0" id="income_table_data">
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <div class="dropdown">
-              <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                      data-bs-toggle="dropdown">
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class="bx bx-edit-alt me-1"></i>
-                  Edit
-                </a>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class="bx bx-trash me-1"></i>
-                  Delete
-                </a>
-              </div>
-            </div>
-          </td>
-        </tr>
         </tbody>
       </table>
     </div>
@@ -78,7 +56,7 @@
         <a id="spending_popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
            style="padding:12px 20px 14px; margin-left: 20px"></a>
       </div>
-      <table class="table table-striped" id="spending_table" width="100%" cellspacing="0">
+      <table class="table table-striped" id="spending_table">
         <thead>
         <tr>
           <th>Index</th>
@@ -87,28 +65,6 @@
         </tr>
         </thead>
         <tbody class="table-border-bottom-0" id="spending_table_data">
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <div class="dropdown">
-              <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                      data-bs-toggle="dropdown">
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class="bx bx-edit-alt me-1"></i>
-                  Edit
-                </a>
-                <a class="dropdown-item" href="javascript:void(0);">
-                  <i class="bx bx-trash me-1"></i>
-                  Delete
-                </a>
-              </div>
-            </div>
-          </td>
-        </tr>
         </tbody>
       </table>
     </div>
@@ -186,26 +142,47 @@
 
   }
 
+  function getSpendingCategory() {
+    $.ajax({
+      url: '/category/list/spending',
+      contentType: 'application/json',
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log('getSpendingCategory function is success.');
+        drawCategoryTable('#spending_table_data', data);
+      },
+      error: function () {
+        alert('Fail to get spending category');
+      }
+    }).done(function (fragment) {
+      console.log('getSpendingCategory function is end.');
+    });
+  }
+
   function drawCategoryTable(draw_table, category_data) {
-    let html_data = "";
-    let category_html_data = "";
+    $(draw_table).empty();
 
-    for (let i = 0; category_data.length; i++) {
-      category_html_data = category_html_data
-          + "<td>" + (i + 1) + "</td>"
-          + "<td>" + category_data.name + "</td>"
-          + "<td>" + "<div class='dropdown'>" + "</div>"
-
-          + "</td>";
+    for (let index in category_data) {
+      let html_data = "";
+      html_data += "<tr>";
+      html_data += "<td>" + category_data[index].id + "</td>";
+      html_data += "<td>" + category_data[index].name + "</td>";
+      html_data += "<td>";
+      html_data += "<div>";
+      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
+          + category_data[index].id + ");'>"
+      html_data += "<i class='fas fa-edit'></i>"
+      html_data += "</a>";
+      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
+          + category_data[index].id + ";'>";
+      html_data += "<i class='fas fa-trash mr-2'></i>";
+      html_data += "</a>";
+      html_data += "</div>";
+      html_data += "<td>";
+      html_data += "</tr>";
+      $(draw_table).append(html_data);
     }
-
-
-
-    html_data = html_data
-      + "<td>"
-      + "</td>";
-
-    $(draw_table).html();
   }
 
   function saveIncomeCategory() {
@@ -245,11 +222,15 @@
       data: JSON.stringify(data),
     }).done(function (fragment) {
       console.log("save category is end.");
+      getSpendingCategory();
+      getIncomeCategory();
     });
   }
 
   $(window).on("load", function () {
     $('body').addClass('loaded');
+    getIncomeCategory();
+    getSpendingCategory();
   });
 
   const income_modal = document.getElementById('income_modal');
