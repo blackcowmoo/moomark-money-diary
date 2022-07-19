@@ -71,6 +71,7 @@
 
   </div>
 </div>
+
 <!-- Modal Page -->
 <div id="income_modal" class="modal-overlay">
   <div class="modal-window">
@@ -81,7 +82,7 @@
       <a id="income_modal_close_btn" class="modal_close_btn">exit</a>
     </div>
     <div class="content">
-      <form id="income_contact-form" action="" method="POST" class="tm-contact-form mx-auto">
+      <form id="income_category_form" action="" method="POST" class="tm-contact-form mx-auto">
         <div class="form-group">
           <input type="text" id="income_type" name="income_type" class="form-control rounded-0"
                  placeholder="Type"
@@ -106,7 +107,7 @@
       <a id="spending_modal_close_btn" class="modal_close_btn">exit</a>
     </div>
     <div class="content">
-      <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">
+      <form id="spending_category_form" action="" method="POST" class="tm-contact-form mx-auto">
         <div class="form-group">
           <input type="text" id="spending_type" name="spending_type" class="form-control rounded-0"
                  placeholder="Type"
@@ -143,6 +144,30 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
+<!--<div id="spending_update_modal" class="modal-overlay">-->
+<!--  <div class="modal-window">-->
+<!--    <div class="title tm-text-primary">-->
+<!--      <h2>Update Spending Category</h2>-->
+<!--    </div>-->
+<!--    <div class="close-area">-->
+<!--      <a id="update_spending_modal_close_btn" class="modal_close_btn">exit</a>-->
+<!--    </div>-->
+<!--    <div class="content">-->
+<!--      <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">-->
+<!--        <div class="form-group">-->
+<!--          <input type="text" id="updated_spending_value" name="updated_spending_value" class="form-control rounded-0"-->
+<!--                 placeholder="Type"-->
+<!--                 required/>-->
+<!--        </div>-->
+<!--        <div class="form-group tm-text-right">-->
+<!--          <button type="button" class="btn btn-primary" onclick="saveSpendingCategory()">Submit-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
 
 </body>
 <script th:src="@{js/plugins.js}"></script>
@@ -230,7 +255,7 @@
       html_data += "<td>" + category_data[index].name + "</td>";
       html_data += "<td>";
       html_data += "<div>";
-      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
+      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:showUpdateCategoryModal(income,"
           + category_data[index].id + ");'>"
       html_data += "<i class='fas fa-edit'></i>"
       html_data += "</a>";
@@ -243,6 +268,31 @@
       html_data += "</tr>";
       $(draw_table).append(html_data);
     }
+  }
+
+  function updateCategory(category_id) {
+    const requestData = {
+      "name": document.getElementById('income_type').value,
+      "type": "income"
+    };
+
+    $.ajax({
+      url: '/category/info/' + category_id,
+      contentType: 'application/json',
+      type: 'PUT',
+      dataType: 'json',
+      data: JSON.stringify(requestData),
+      success: function (data) {
+        console.log('updateCategory function is success.');
+        getSpendingCategory();
+        getIncomeCategory();
+      },
+      error: function () {
+        alert('Fail to get spending category');
+      }
+    }).done(function (fragment) {
+      console.log('getSpendingCategory function is end.');
+    });
   }
 
   function saveIncomeCategory() {
@@ -287,6 +337,12 @@
     });
   }
 
+  function showUpdateCategoryModal(type, id) {
+    if (type === "income") {
+      spending_update_modal.style.display = 'flex';
+    }
+  }
+
   $(window).on("load", function () {
     $('body').addClass('loaded');
     getIncomeCategory();
@@ -295,6 +351,7 @@
 
   const income_modal = document.getElementById('income_modal');
   const spending_modal = document.getElementById('spending_modal');
+  const spending_update_modal = document.getElementById('spending_update_modal');
   const income_category_edit_btn = document.getElementById('income_popup_open_btn');
   const spending_category_edit_btn = document.getElementById('spending_popup_open_btn');
   const income_modal_close_btn = document.getElementById('income_modal_close_btn');
@@ -338,6 +395,11 @@
     if (spending_modal.style.display === "flex" && e.key === "Escape") {
       spending_modal.style.display = "none"
     }
+
+    if (spending_update_modal.style.display === "flex" && e.key === "Escape") {
+      spending_update_modal.style.display = "none"
+    }
+
   })
 </script>
 </html>
