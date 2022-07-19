@@ -96,6 +96,7 @@
   </div>
 </div>
 
+<!--Spending Modal Page-->
 <div id="spending_modal" class="modal-overlay">
   <div class="modal-window">
     <div class="title tm-text-primary">
@@ -119,6 +120,29 @@
     </div>
   </div>
 </div>
+
+<!--Update Modal Page-->
+<!--<div id="udpate_modal" class="modal-overlay">-->
+<!--  <div class="modal-window">-->
+<!--    <div class="title tm-text-primary">-->
+<!--      <h2>EDIT</h2>-->
+<!--    </div>-->
+<!--    <div class="close-area">-->
+<!--      <a id="update_modal_close_btn" class="modal_close_btn">exit</a>-->
+<!--    </div>-->
+<!--    <div class="content">-->
+<!--      <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">-->
+<!--        <div class="form-group">-->
+<!--          <input type="text" id="type" name="spending_type" class="form-control rounded-0" value="" a required/>-->
+<!--        </div>-->
+<!--        <div class="form-group tm-text-right">-->
+<!--          <button type="button" class="btn btn-primary" onclick="saveSpendingCategory()">Submit-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
 </body>
 <script th:src="@{js/plugins.js}"></script>
@@ -160,13 +184,49 @@
     });
   }
 
+  function updateCategory(id) {
+    $.ajax({
+      url: '/category/info/' + id,
+      contentType: 'application/json',
+      type: 'PUT',
+      dataType: 'json',
+      success: function (data) {
+
+      },
+      error: function() {
+
+      }
+    }).done(function() {
+
+    });
+  }
+
+  function deleteCategory(id) {
+    $.ajax({
+      url: '/category/info/' + id,
+      contentType: 'application/json',
+      type: 'DELETE',
+      dataType: 'json',
+      success: function() {
+        alert('Success delete category');
+      },
+      error: function() {
+        alert('Delete category error');
+      }
+    }).done(function() {
+      getIncomeCategory();
+      getSpendingCategory();
+    });
+
+  }
+
   function drawCategoryTable(draw_table, category_data) {
     $(draw_table).empty();
 
     for (let index in category_data) {
       let html_data = "";
       html_data += "<tr>";
-      html_data += "<td>" + category_data[index].id + "</td>";
+      html_data += "<td>" + (index + 1) + "</td>";
       html_data += "<td>" + category_data[index].name + "</td>";
       html_data += "<td>";
       html_data += "<div>";
@@ -175,7 +235,7 @@
       html_data += "<i class='fas fa-edit'></i>"
       html_data += "</a>";
       html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
-          + category_data[index].id + ";'>";
+          + category_data[index].id + ");' onclick='deleteCategory(" + category_data[index].id + ")'>";
       html_data += "<i class='fas fa-trash mr-2'></i>";
       html_data += "</a>";
       html_data += "</div>";
