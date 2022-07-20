@@ -209,24 +209,11 @@
     });
   }
 
-  function updateCategory(id) {
-    $.ajax({
-      url: '/category/info/' + id,
-      contentType: 'application/json',
-      type: 'PUT',
-      dataType: 'json',
-      success: function (data) {
-
-      },
-      error: function() {
-
-      }
-    }).done(function() {
-
-    });
-  }
-
   function deleteCategory(id) {
+
+    if(confirm('카테고리 정보를 삭제하시겠습니까?') === false) {
+      return;
+    }
     $.ajax({
       url: '/category/info/' + id,
       contentType: 'application/json',
