@@ -7,6 +7,7 @@
   <link rel="stylesheet" th:href="@{css/templatemo-style.css}">
   <link rel="stylesheet" th:href="@{css/income-modal.css}">
   <link rel="stylesheet" th:href="@{css/spending-modal.css}">
+  <link rel="stylesheet" th:href="@{css/update-modal.css}">
   <link rel="stylesheet" th:href="@{fontawesome/css/all.min.css}">
   <link rel="stylesheet" th:href="@{vendor/css/core.css}">
   <link rel="stylesheet" th:href="@{fonts/boxicons.scss}">
@@ -76,10 +77,10 @@
 <div id="income_modal" class="modal-overlay">
   <div class="modal-window">
     <div class="title tm-text-primary">
-      <h2>EDIT</h2>
+      <h2>ADD_EDIT</h2>
     </div>
     <div class="close-area">
-      <a id="income_modal_close_btn" class="modal_close_btn">exit</a>
+      <a id="income_modal_close_btn" class="modal_close_btn">X</a>
     </div>
     <div class="content">
       <form id="income_category_form" action="" method="POST" class="tm-contact-form mx-auto">
@@ -101,10 +102,10 @@
 <div id="spending_modal" class="modal-overlay">
   <div class="modal-window">
     <div class="title tm-text-primary">
-      <h2>EDIT</h2>
+      <h2>ADD_EDIT</h2>
     </div>
     <div class="close-area">
-      <a id="spending_modal_close_btn" class="modal_close_btn">exit</a>
+      <a id="spending_modal_close_btn" class="modal_close_btn">X</a>
     </div>
     <div class="content">
       <form id="spending_category_form" action="" method="POST" class="tm-contact-form mx-auto">
@@ -123,13 +124,13 @@
 </div>
 
 <!--Update Modal Page-->
-<div id="udpate_modal" class="modal-overlay">
+<div id="update_modal" class="modal-overlay">
   <div class="modal-window">
     <div class="title tm-text-primary">
-      <h2>EDIT</h2>
+      <h2>UPDATE_EDIT</h2>
     </div>
     <div class="close-area">
-      <a id="update_modal_close_btn" class="modal_close_btn">exit</a>
+      <a id="update_modal_close_btn" class="modal_close_btn">X</a>
     </div>
     <div class="content">
       <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">
@@ -219,8 +220,8 @@
       html_data += "<td>" + category_data[index].name + "</td>";
       html_data += "<td>";
       html_data += "<div>";
-      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:showUpdateCategoryModal(income,"
-          + category_data[index].id + ");'>"
+      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:showUpdateCategoryModal("
+          + category_data[index].id + ", " + draw_table + ");'>"
       html_data += "<i class='fas fa-edit'></i>"
       html_data += "</a>";
       html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
@@ -296,10 +297,10 @@
     });
   }
 
-  function showUpdateCategoryModal(type, id) {
-    if (type === "income") {
-      spending_update_modal.style.display = 'flex';
-    }
+  function showUpdateCategoryModal(id, type) {
+    update_modal.style.display = 'flex';
+
+    updateCategory(id);
   }
 
   $(window).on("load", function () {
@@ -310,11 +311,14 @@
 
   const income_modal = document.getElementById('income_modal');
   const spending_modal = document.getElementById('spending_modal');
-  const spending_update_modal = document.getElementById('spending_update_modal');
+  const update_modal = document.getElementById('update_modal');
+
   const income_category_edit_btn = document.getElementById('income_popup_open_btn');
   const spending_category_edit_btn = document.getElementById('spending_popup_open_btn');
+
   const income_modal_close_btn = document.getElementById('income_modal_close_btn');
   const spending_modal_close_btn = document.getElementById('spending_modal_close_btn');
+  const update_modal_close_btn = document.getElementById('update_modal_close_btn');
 
   income_category_edit_btn.addEventListener('click', ev => {
     income_modal.style.display = 'flex';
@@ -330,6 +334,10 @@
 
   spending_modal_close_btn.addEventListener('click', ev => {
     spending_modal.style.display = 'none';
+  })
+
+  update_modal_close_btn.addEventListener('click', ev => {
+    update_modal.style.display = 'none';
   })
 
   income_modal.addEventListener("click", ev => {
@@ -355,8 +363,8 @@
       spending_modal.style.display = "none"
     }
 
-    if (spending_update_modal.style.display === "flex" && e.key === "Escape") {
-      spending_update_modal.style.display = "none"
+    if(update_modal.style.display === "flex" && e.key === "Escape") {
+      update_modal.style.display = "none";
     }
 
   })
