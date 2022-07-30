@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Allowance Chart_Config</title>
+  <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{css/templatemo-style.css}">
+  <link rel="stylesheet" th:href="@{css/income-modal.css}">
+  <link rel="stylesheet" th:href="@{css/spending-modal.css}">
+  <link rel="stylesheet" th:href="@{css/update-modal.css}">
+  <link rel="stylesheet" th:href="@{fontawesome/css/all.min.css}">
+  <link rel="stylesheet" th:href="@{vendor/css/core.css}">
+  <link rel="stylesheet" th:href="@{fonts/boxicons.scss}">
+  <link
+      rel="stylesheet"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css}"
+  />
+</head>
+<body>
+<div id="loader-wrapper">
+  <div id="loader"></div>
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+</div>
+
+<!--nav bar-->
+<div th:replace="/navbar::nav"></div>
+<!--content-->
+<div class="container-fluid tm-mt-60">
+  <div class="row tm-mb-50">
+    <div class="col-lg-4 col-12 mb-5">
+      <div class="d-flex justify-content-end float-left">
+        <h2 class="tm-text-primary -align-left">Income_Category</h2>
+      </div>
+      <div class="d-flex justify-content-end float-right">
+        <a id="income_popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
+           style="padding:12px 20px 14px; margin-left: 20px"></a>
+      </div>
+      <table class="table table-striped" id="income_table">
+        <thead>
+        <tr>
+          <th>Index</th>
+          <th>Category_Type</th>
+          <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0" id="income_table_data">
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-lg-4 col-12 mb-5">
+      <div class="d-flex justify-content-end float-left">
+        <h2 class="tm-text-primary -align-left">Spending_Category</h2>
+      </div>
+      <div class="d-flex justify-content-end float-right">
+        <a id="spending_popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
+           style="padding:12px 20px 14px; margin-left: 20px"></a>
+      </div>
+      <table class="table table-striped" id="spending_table">
+        <thead>
+        <tr>
+          <th>Index</th>
+          <th>Category_Type</th>
+          <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0" id="spending_table_data">
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Page -->
+<div id="income_modal" class="modal-overlay">
+  <div class="modal-window">
+    <div class="title tm-text-primary">
+      <h2>ADD_EDIT</h2>
+    </div>
+    <div class="close-area">
+      <a id="income_modal_close_btn" class="modal_close_btn">X</a>
+    </div>
+    <div class="content">
+      <form id="income_category_form" action="" method="POST" class="tm-contact-form mx-auto">
+        <div class="form-group">
+          <input type="text" id="income_type" name="income_type" class="form-control rounded-0"
+                 placeholder="Type"
+                 required/>
+        </div>
+        <div class="form-group tm-text-right">
+          <button type="button" class="btn btn-primary" onclick="saveIncomeCategory()">Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Spending Modal Page-->
+<div id="spending_modal" class="modal-overlay">
+  <div class="modal-window">
+    <div class="title tm-text-primary">
+      <h2>ADD_EDIT</h2>
+    </div>
+    <div class="close-area">
+      <a id="spending_modal_close_btn" class="modal_close_btn">X</a>
+    </div>
+    <div class="content">
+      <form id="spending_category_form" action="" method="POST" class="tm-contact-form mx-auto">
+        <div class="form-group">
+          <input type="text" id="spending_type" name="spending_type" class="form-control rounded-0"
+                 placeholder="Type"
+                 required/>
+        </div>
+        <div class="form-group tm-text-right">
+          <button type="button" class="btn btn-primary" onclick="saveSpendingCategory()">Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Update Modal Page-->
+<div id="update_modal" class="modal-overlay">
+  <div class="modal-window">
+    <div class="title tm-text-primary">
+      <h2>UPDATE_EDIT</h2>
+    </div>
+    <div class="close-area">
+      <a id="update_modal_close_btn" class="modal_close_btn">X</a>
+    </div>
+    <div class="content">
+      <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">
+        <div class="form-group">
+          <input type="text" id="update_type" name="spending_type" class="form-control rounded-0" value="" required/>
+          <input type="hidden" id="type_id" name="type_id" class="form-control rounded-0" value="" required/>
+        </div>
+        <div class="form-group tm-text-right">
+          <button type="button" class="btn btn-primary" onclick="updateCategory()">Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</body>
+<script th:src="@{js/plugins.js}"></script>
+<script>
+  function getIncomeCategory() {
+    $.ajax({
+      url: '/category/list/income',
+      contentType: 'application/json',
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log('getIncomeCategory function is success.');
+        drawCategoryTable('#income_table_data', data);
+      },
+      error: function () {
+        alert('Fail to get income category');
+      }
+    }).done(function (fragment) {
+      console.log('getIncomeCategory function is end.');
+    });
+
+  }
+
+  function getSpendingCategory() {
+    $.ajax({
+      url: '/category/list/spending',
+      contentType: 'application/json',
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log('getSpendingCategory function is success.');
+        drawCategoryTable('#spending_table_data', data);
+      },
+      error: function () {
+        alert('Fail to get spending category');
+      }
+    }).done(function (fragment) {
+      console.log('getSpendingCategory function is end.');
+    });
+  }
+
+  function deleteCategory(id) {
+
+    if(confirm('카테고리 정보를 삭제하시겠습니까?') === false) {
+      return;
+    }
+    $.ajax({
+      url: '/category/info/' + id,
+      contentType: 'application/json',
+      type: 'DELETE',
+      dataType: 'json',
+      success: function() {
+        alert('Success delete category');
+      },
+      error: function() {
+        alert('Delete category error');
+      }
+    }).done(function() {
+      getIncomeCategory();
+      getSpendingCategory();
+    });
+
+  }
+
+  function drawCategoryTable(draw_table, category_data) {
+    $(draw_table).empty();
+
+    for (let index in category_data) {
+      let html_data = "";
+      html_data += "<tr>";
+      html_data += "<td>" + (Number(index) + 1) + "</td>";
+      html_data += "<td>" + category_data[index].name + "</td>";
+      html_data += "<td>";
+      html_data += "<div>";
+      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
+          + category_data[index].id + ");' onclick='showUpdateCategoryModal(\"" + String(category_data[index].name) + "\"," + category_data[index].id + ")'>"
+      html_data += "<i class='fas fa-edit'></i>"
+      html_data += "</a>";
+      html_data += "<a style='color: #697a8d; padding: 5px' href='javascript:void("
+          + category_data[index].id + ");' onclick='deleteCategory(" + category_data[index].id + ")'>";
+      html_data += "<i class='fas fa-trash mr-2'></i>";
+      html_data += "</a>";
+      html_data += "</div>";
+      html_data += "<td>";
+      html_data += "</tr>";
+      $(draw_table).append(html_data);
+    }
+  }
+
+  function updateCategory() {
+    const update_type = document.getElementById('update_type').value;
+    const category_id = document.getElementById('type_id').value;
+
+    const dataBean = {
+      "name": update_type
+    };
+
+    $.ajax({
+      url: '/category/info/' + category_id,
+      contentType: 'application/json',
+      type: 'PUT',
+      dataType: 'json',
+      data: JSON.stringify(dataBean),
+      success: function (data) {
+        console.log('updateCategory function is success.');
+        getSpendingCategory();
+        getIncomeCategory();
+      },
+      error: function () {
+        alert('Fail to get spending category');
+      }
+    }).done(function (fragment) {
+      console.log('Update category function is end.');
+    });
+  }
+
+  function saveIncomeCategory() {
+    const dataBean = {
+      "name": document.getElementById('income_type').value,
+      "type": "income"
+    };
+    console.log(dataBean);
+    if (!dataBean.name.length) {
+      alert('카테고리 값을 입력바랍니다.');
+      return;
+    }
+    saveCategory(dataBean);
+  }
+
+  function saveSpendingCategory() {
+
+    const dataBean = {
+      "name": document.getElementById('spending_type').value,
+      "type": "spending"
+    };
+    console.log(dataBean);
+
+    if (!dataBean.name.length) {
+      alert('카테고리 값을 입력바랍니다.');
+      return;
+    }
+
+    saveCategory(dataBean);
+  }
+
+  function saveCategory(data) {
+    $.ajax({
+      url: '/category/info',
+      contentType: 'application/json',
+      type: 'post',
+      data: JSON.stringify(data),
+    }).done(function (fragment) {
+      console.log("save category is end.");
+      getSpendingCategory();
+      getIncomeCategory();
+    });
+  }
+
+  function showUpdateCategoryModal(type, id) {
+    document.getElementById('update_type').value = type;
+    document.getElementById('type_id').value = id;
+    update_modal.style.display = 'flex';
+  }
+
+  $(window).on("load", function () {
+    $('body').addClass('loaded');
+    getIncomeCategory();
+    getSpendingCategory();
+  });
+
+  const income_modal = document.getElementById('income_modal');
+  const spending_modal = document.getElementById('spending_modal');
+  const update_modal = document.getElementById('update_modal');
+
+  const income_category_edit_btn = document.getElementById('income_popup_open_btn');
+  const spending_category_edit_btn = document.getElementById('spending_popup_open_btn');
+
+  const income_modal_close_btn = document.getElementById('income_modal_close_btn');
+  const spending_modal_close_btn = document.getElementById('spending_modal_close_btn');
+  const update_modal_close_btn = document.getElementById('update_modal_close_btn');
+
+  income_category_edit_btn.addEventListener('click', ev => {
+    income_modal.style.display = 'flex';
+  })
+
+  spending_category_edit_btn.addEventListener('click', ev => {
+    spending_modal.style.display = 'flex';
+  })
+
+  income_modal_close_btn.addEventListener('click', ev => {
+    income_modal.style.display = 'none';
+  })
+
+  spending_modal_close_btn.addEventListener('click', ev => {
+    spending_modal.style.display = 'none';
+  })
+
+  update_modal_close_btn.addEventListener('click', ev => {
+    update_modal.style.display = 'none';
+  })
+
+  income_modal.addEventListener("click", ev => {
+    const evTarget = ev.target
+    if (evTarget.classList.contains("modal-overlay")) {
+      income_modal.style.display = "none"
+    }
+  })
+
+  spending_modal.addEventListener("click", ev => {
+    const evTarget = ev.target
+    if (evTarget.classList.contains("modal-overlay")) {
+      spending_modal.style.display = "none"
+    }
+  })
+
+  window.addEventListener("keyup", e => {
+    if (income_modal.style.display === "flex" && e.key === "Escape") {
+      income_modal.style.display = "none"
+    }
+
+    if (spending_modal.style.display === "flex" && e.key === "Escape") {
+      spending_modal.style.display = "none"
+    }
+
+    if(update_modal.style.display === "flex" && e.key === "Escape") {
+      update_modal.style.display = "none";
+    }
+
+  })
+</script>
+</html>

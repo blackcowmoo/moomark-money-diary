@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Allowance Chart_Income</title>
+  <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{css/templatemo-style.css}">
+  <link rel="stylesheet" th:href="@{fontawesome/css/all.min.css}">
+  <link rel="stylesheet" th:href="@{vendor/css/core.css}">
+  <link rel="stylesheet" th:href="@{fonts/boxicons.scss}">
+  <link
+      rel="stylesheet"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css}"
+  />
+  <style>
+    #modal.modal-overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(1.5px);
+      -webkit-backdrop-filter: blur(1.5px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    #modal .modal-window {
+      background: rgba(255, 255, 255, 0.70);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(13.5px);
+      -webkit-backdrop-filter: blur(13.5px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 400px;
+      height: 500px;
+      position: relative;
+      top: -100px;
+      padding: 10px;
+    }
+
+    #modal .title {
+      padding-left: 10px;
+      display: inline;
+      text-shadow: 1px 1px 2px gray;
+      color: white;
+
+    }
+
+    #modal .title h2 {
+      display: inline;
+      color: #009999;
+    }
+
+    #modal .close-area {
+      display: inline;
+      float: right;
+      padding-right: 10px;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px gray;
+      color: #1b1e21;
+    }
+
+    #modal .content {
+      margin-top: 20px;
+      padding: 0 10px;
+      text-shadow: 1px 1px 2px gray;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+<div id="loader-wrapper">
+  <div id="loader"></div>
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+</div>
+
+<!--nav bar-->
+<div th:replace="/navbar::nav"></div>
+<!--content-->
+<div class="container-fluid tm-container-content tm-mt-60">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h2 class="col-12 tm-text-primary">
+        Income_Chart
+      </h2>
+    </div>
+    <div class="col-12 d-flex justify-content-end align-items-md-end">
+      <a id="popup_open_btn" class="btn btn-primary mb-2 fas fa-plus"
+         style="padding:12px 20px 14px; margin-left: 20px"></a>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+            <th>Index</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);">
+                    <i class="bx bx-edit-alt me-1"></i>
+                    Edit
+                  </a>
+                  <a class="dropdown-item" href="javascript:void(0);">
+                    <i class="bx bx-trash me-1"></i>
+                    Delete
+                  </a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Page -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-window">
+      <div class="title tm-text-primary">
+        <h2>EDIT</h2>
+      </div>
+      <div class="close-area">
+        <a id="modal_close_btn" class="modal_close_btn">exit</a>
+      </div>
+      <div class="content">
+        <form id="contact-form" action="" method="POST" class="tm-contact-form mx-auto">
+          <div class="form-group">
+            <input type="text" name="title" class="form-control rounded-0" placeholder="Title"
+                   required/>
+          </div>
+          <div class="form-group">
+            <input type="number" name="price" class="form-control rounded-0" placeholder="Price"
+                   required/>
+          </div>
+          <div class="form-group">
+            <select class="form-control" id="category-select" name="category">
+              <option value="-">Subject</option>
+              <option value="eating">Sales &amp; Marketing</option>
+              <option value="shopping">Creative Design</option>
+              <option value="culture">UI / UX</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <textarea rows="6" name="message" class="form-control rounded-0" placeholder="Message"></textarea>
+          </div>
+
+          <div class="form-group tm-text-right">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script th:src="@{js/plugins.js}"></script>
+<script>
+  function saveAllowance() {
+    const dataBean = {
+      content: $('').val()
+    };
+
+    $.ajax({
+      url: '',
+      type: 'post',
+      data: dataBean,
+    }).done(function (fragment){
+
+    });
+  }
+
+  $(window).on("load", function () {
+    $('body').addClass('loaded');
+  });
+
+  const modal = document.getElementById('modal');
+  const editBtn = document.getElementById('popup_open_btn');
+  const modalCloseBtn = document.getElementById('modal_close_btn');
+
+  editBtn.addEventListener('click', ev => {
+    modal.style.display = 'flex';
+  })
+
+  modalCloseBtn.addEventListener('click', ev => {
+    modal.style.display = 'none';
+  })
+
+  modal.addEventListener("click", ev => {
+    const evTarget = ev.target
+    if (evTarget.classList.contains("modal-overlay")) {
+      modal.style.display = "none"
+    }
+  })
+
+  window.addEventListener("keyup", e => {
+    if (modal.style.display === "flex" && e.key === "Escape") {
+      modal.style.display = "none"
+    }
+  })
+  
+  function saveAllowanceChartData() {
+    let allowance_data = {
+      itemName : document.getElementById('item_name').value,
+    };
+
+    console.log(allowance_data);
+  }
+</script>
+</html>

@@ -26,12 +26,14 @@ public class Category {
   private Long id;
   private String name;
 
+  private String type;
   @OneToMany(mappedBy = "category")
   private List<DataCategory> dataCategory;
 
   public Category(CategoryDto categoryDto) {
     this.id = categoryDto.getId();
     this.name = categoryDto.getName();
+    this.type = categoryDto.getType();
   }
 
   public void updateInfo(CategoryDto categoryDto) {
@@ -46,6 +48,7 @@ public class Category {
   public String toString() {
     return getClass().getSimpleName() + "(" +
         "id = " + id +
-        "name = " + name + ")";
+        "name = " + name +
+        "type = " + type + ")";
   }
 }
