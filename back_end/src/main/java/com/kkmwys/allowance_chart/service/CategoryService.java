@@ -5,6 +5,7 @@ import com.kkmwys.allowance_chart.domain.Category;
 import com.kkmwys.allowance_chart.exception.CategoryException;
 import com.kkmwys.allowance_chart.exception.code.CategoryErrorCode;
 import com.kkmwys.allowance_chart.repository.CategoryRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -46,6 +47,9 @@ public class CategoryService {
 
   public List<CategoryDto> getCategoryListByType(String type) {
     List<Category> categories = categoryRepository.findCategoriesByType(type);
+    if(categories == null || categories.isEmpty()) {
+      return new ArrayList<>();
+    }
     return categories.stream().map(CategoryDto::convertToDto).collect(Collectors.toList());
   }
 

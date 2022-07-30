@@ -1,4 +1,4 @@
-#spending_modal.modal-overlay {
+#update_modal.modal-overlay {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -16,7 +16,7 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-#spending_modal .modal-window {
+#update_modal .modal-window {
   background: rgba(255, 255, 255, 0.70);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(13.5px);
@@ -30,7 +30,7 @@
   padding: 10px;
 }
 
-#spending_modal .title {
+#update_modal .title {
   padding-left: 10px;
   display: inline;
   text-shadow: 1px 1px 2px gray;
@@ -38,12 +38,12 @@
 
 }
 
-#spending_modal .title h2 {
+#update_modal .title h2 {
   display: inline;
   color: #009999;
 }
 
-#spending_modal .close-area {
+#update_modal .close-area {
   display: inline;
   float: right;
   padding-right: 10px;
@@ -52,7 +52,7 @@
   color: #1b1e21;
 }
 
-#spending_modal .content {
+#update_modal .content {
   margin-top: 20px;
   padding: 0 10px;
   text-shadow: 1px 1px 2px gray;
