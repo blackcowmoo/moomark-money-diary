@@ -159,7 +159,7 @@
                    required/>
           </div>
           <div class="form-group">
-            <select class="form-control" id="category-select" name="category">
+            <select class="form-control" id="category-select" name="category-select">
               <option value="-">Subject</option>
               <option value="eating">Sales &amp; Marketing</option>
               <option value="shopping">Creative Design</option>
@@ -204,6 +204,7 @@
   const modalCloseBtn = document.getElementById('modal_close_btn');
 
   editBtn.addEventListener('click', ev => {
+    getIncomeChartCategory();
     modal.style.display = 'flex';
   })
 
@@ -230,6 +231,29 @@
     };
 
     console.log(allowance_data);
+  }
+
+  function getIncomeChartCategory() {
+    $.ajax({
+      url: '/category/list/income',
+      type: 'GET',
+      success: function(data) {
+        drawCategoryType(data);
+      }
+    }).done(function (fragment){
+      console.log("Get category function is end")
+    });
+  }
+
+  function drawCategoryType(data) {
+    let category_data = $("#category-select");
+    category_data.empty();
+
+    for (let index in data) {
+      let html_data = "";
+      html_data += "<option value='" + data[index].name + "'>" + data[index].name + "</option>";
+      category_data.append(html_data);
+    }
   }
 </script>
 </html>
