@@ -21,7 +21,8 @@ public class ChartDataDto {
   private int money;
   private String itemName;
   private String memo;
-  private LocalDateTime localDateTime;
+
+  private LocalDateTime incomeTime;
 
   @Builder
   public ChartDataDto(ChartData chartData) {
@@ -29,7 +30,7 @@ public class ChartDataDto {
     this.itemName = chartData.getItemName();
     this.money = chartData.getMoney();
     this.memo = chartData.getMemo();
-    this.localDateTime = chartData.getLocalDateTime();
+    this.incomeTime = chartData.getLocalDateTime();
     this.dataCategories = chartData.getDataCategories().stream()
         .map(DataCategory::getCategory)
         .map(CategoryDto::convertToDto)

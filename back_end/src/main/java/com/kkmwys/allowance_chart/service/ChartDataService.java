@@ -37,6 +37,7 @@ public class ChartDataService {
       throws CategoryException {
 
     List<DataCategory> dataCategoryList = new ArrayList<>();
+
     // check category
     for (CategoryDto categoryDto : chartDataDto.getDataCategories()) {
       Category category = categoryRepository.findById(categoryDto.getId()).orElseThrow(
@@ -52,7 +53,7 @@ public class ChartDataService {
     ChartData chartData = ChartData.builder()
         .itemName(chartDataDto.getItemName())
         .memo(chartDataDto.getMemo())
-        .localDateTime(chartDataDto.getLocalDateTime())
+        .localDateTime(chartDataDto.getIncomeTime())
         .money(chartDataDto.getMoney())
         .build();
 
