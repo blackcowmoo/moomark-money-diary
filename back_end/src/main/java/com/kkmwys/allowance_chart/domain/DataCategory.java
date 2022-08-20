@@ -49,12 +49,10 @@ public class DataCategory {
 
   public void setChartData(ChartData chartData) {
     this.chartData = chartData;
-    chartData.addDataCategory(this);
   }
 
   public void setCategory(Category category) {
     this.category = category;
-    category.addDataCategory(this);
   }
 
   @Override
