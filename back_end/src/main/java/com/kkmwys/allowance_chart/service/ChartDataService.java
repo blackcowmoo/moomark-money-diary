@@ -1,5 +1,6 @@
 package com.kkmwys.allowance_chart.service;
 
+import com.kkmwys.allowance_chart.data.dto.CategoryDto;
 import com.kkmwys.allowance_chart.data.dto.ChartDataDto;
 import com.kkmwys.allowance_chart.data.form.request.RequestSaveDataForm;
 import com.kkmwys.allowance_chart.domain.Category;
@@ -13,9 +14,9 @@ import com.kkmwys.allowance_chart.repository.ChartDataRepository;
 import com.kkmwys.allowance_chart.repository.DataCategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,31 +61,23 @@ public class ChartDataService {
     return resultList;
   }
 
-//  public ChartDataDto getChartDataById(Long id) throws ChartDataException {
-//    ChartData chartData = chartDataRepository.findById(id).orElseThrow(
-//        () -> new ChartDataException(ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getErrorCode(),
-//            ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getMsg())
-//    );
-//    log.info("chart_data information {}", chartData.toString());
-//    for (var dataCategory : chartData.getDataCategories()) {
-//      log.info("Category information : {}", dataCategory.getCategory().toString());
-//    }
-//    return new ChartDataDto(chartData);
-//  }
+  public ChartDataDto getChartDataById(Long id) throws ChartDataException {
+    ChartData chartData = chartDataRepository.findById(id).orElseThrow(
+        () -> new ChartDataException(ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getErrorCode(),
+            ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getMsg())
+    );
+    log.info("chart_data information {}", chartData.toString());
+    return ChartDataDto.of(chartData);
+  }
 
-//  public List<ChartDataDto> getChartDataListByCategory(CategoryDto categoryDto)
-//      throws CategoryException {
-//    Category category = categoryRepository.findCategoryByName(categoryDto.getName()).orElseThrow(
-//        () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
-//            CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
-//
-//    List<DataCategory> dataCategoryList = dataCategoryRepository
-//        .findDataCategoriesByCategory(category);
-//    List<ChartData> chartDataList = dataCategoryList.stream()
-//        .map(DataCategory::getChartData)
-//        .collect(Collectors.toList());
-//    return chartDataList.stream().map(ChartDataDto::new).collect(Collectors.toList());
-//  }
+  public List<ChartDataDto> getChartDataListByCategory(CategoryDto categoryDto) throws CategoryException {
+    Category category = categoryRepository.findCategoryByName(categoryDto.getName()).orElseThrow(
+        () -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
+            CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
+
+    List<ChartData> chartDataList = chartDataRepository.findChartDataByCategory(category);
+    return chartDataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
+  }
 
   /***** UPDATE *****/
 //  @Transactional

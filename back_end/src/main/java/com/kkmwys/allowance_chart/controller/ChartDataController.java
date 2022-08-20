@@ -1,5 +1,6 @@
 package com.kkmwys.allowance_chart.controller;
 
+import com.kkmwys.allowance_chart.data.dto.CategoryDto;
 import com.kkmwys.allowance_chart.data.dto.ChartDataDto;
 import com.kkmwys.allowance_chart.data.form.request.RequestSaveDataForm;
 import com.kkmwys.allowance_chart.exception.CategoryException;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,29 +41,27 @@ public class ChartDataController {
   public ResponseEntity<List<ChartDataDto>> getChartDataList() {
     return ResponseEntity.ok(chartDataService.getAllChartData());
   }
+  @GetMapping("/chart/data/{id}")
+  public ResponseEntity<ChartDataDto> getChartDataById(@PathVariable Long id) {
+    try {
+      return ResponseEntity.ok(chartDataService.getChartDataById(id));
+    } catch (ChartDataException e) {
+      e.printStackTrace();
+      return ResponseEntity.badRequest().build();
+    }
+  }
 
-//  @GetMapping("/chart/data/category")
-//  public ResponseEntity<List<ChartDataDto>> getChartDataByCategory(CategoryDto categoryDto) {
-//    List<ChartDataDto> resultList = null;
-//    try {
-//      resultList = chartDataService.getChartDataListByCategory(categoryDto);
-//    } catch (CategoryException e) {
-//      e.printStackTrace();
-//      ResponseEntity.badRequest().build();
-//    }
-//    return ResponseEntity.ok(resultList);
-//  }
-
-//  @GetMapping("/chart/data/{id}")
-//  public ResponseEntity<ChartDataDto> getChartDataById(@PathVariable Long id) {
-//    try {
-//      return ResponseEntity.ok(chartDataService.getChartDataById(id));
-//    } catch (ChartDataException e) {
-//      e.printStackTrace();
-//      return ResponseEntity.badRequest().build();
-//    }
-//  }
-
+  @GetMapping("/chart/data/category")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategory(CategoryDto categoryDto) {
+    List<ChartDataDto> resultList = null;
+    try {
+      resultList = chartDataService.getChartDataListByCategory(categoryDto);
+    } catch (CategoryException e) {
+      e.printStackTrace();
+      ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok(resultList);
+  }
 
   /****** PUT ******/
 
