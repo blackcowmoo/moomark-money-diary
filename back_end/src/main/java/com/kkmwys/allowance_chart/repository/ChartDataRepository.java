@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChartDataRepository extends JpaRepository<ChartData, Long> {
   List<ChartData> findChartDataByCategory(Category category);
+  List<ChartData> findChartDataByCategoryType(String type);
 }

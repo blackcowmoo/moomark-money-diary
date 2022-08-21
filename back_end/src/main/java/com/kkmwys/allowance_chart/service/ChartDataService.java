@@ -79,6 +79,12 @@ public class ChartDataService {
     return chartDataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
   }
 
+  public List<ChartDataDto> getchartDataListByCategoryType(String type) {
+    List<ChartData> chartdataList = chartDataRepository.findChartDataByCategoryType(type);
+    return chartdataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
+  }
+
+
   /***** UPDATE *****/
 //  @Transactional
 //  public ChartDataDto updateChartData(ChartDataDto chartDataDto) throws ChartDataException {
