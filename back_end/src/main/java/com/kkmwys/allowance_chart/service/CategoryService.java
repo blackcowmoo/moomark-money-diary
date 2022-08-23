@@ -37,12 +37,12 @@ public class CategoryService {
     }
 
     Category savedCategory = categoryRepository.save(new Category(categoryDto));
-    return CategoryDto.convertToDto(savedCategory);
+    return CategoryDto.of(savedCategory);
   }
 
   public List<CategoryDto> getCategoryList() {
     List<Category> categories = categoryRepository.findAll();
-    return categories.stream().map(CategoryDto::convertToDto).collect(Collectors.toList());
+    return categories.stream().map(CategoryDto::of).collect(Collectors.toList());
   }
 
   public List<CategoryDto> getCategoryListByType(String type) {
@@ -50,7 +50,7 @@ public class CategoryService {
     if(categories == null || categories.isEmpty()) {
       return new ArrayList<>();
     }
-    return categories.stream().map(CategoryDto::convertToDto).collect(Collectors.toList());
+    return categories.stream().map(CategoryDto::of).collect(Collectors.toList());
   }
 
 
@@ -72,7 +72,7 @@ public class CategoryService {
       e.printStackTrace();
     }
     Objects.requireNonNull(category).updateInfo(categoryDto);
-    return CategoryDto.convertToDto(category);
+    return CategoryDto.of(category);
   }
 
   /**
