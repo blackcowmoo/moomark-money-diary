@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChartDataDto {
@@ -30,7 +31,7 @@ public class ChartDataDto {
     this.money = chartData.getMoney();
     this.memo = chartData.getMemo();
     this.informationTime = chartData.getInformationTime();
-    this.category = CategoryDto.convertToDto(chartData.getCategory());
+    this.category = CategoryDto.of(chartData.getCategory());
   }
 
   public static ChartDataDto of(ChartData chartData) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +42,7 @@ public class ChartDataController {
   public ResponseEntity<List<ChartDataDto>> getChartDataList() {
     return ResponseEntity.ok(chartDataService.getAllChartData());
   }
+
   @GetMapping("/chart/data/{id}")
   public ResponseEntity<ChartDataDto> getChartDataById(@PathVariable Long id) {
     try {
@@ -70,15 +72,16 @@ public class ChartDataController {
 
   /****** PUT ******/
 
-//  @PutMapping("chart/data")
-//  public ResponseEntity<ChartDataDto> updateChartData(@RequestBody ChartDataDto chartDataDto) {
-//    try {
-//      return ResponseEntity.ok(chartDataService.updateChartData(chartDataDto));
-//    } catch (ChartDataException e) {
-//      e.printStackTrace();
-//      return ResponseEntity.badRequest().build();
-//    }
-//  }
+  @PutMapping("chart/data/{id}")
+  public ResponseEntity<ChartDataDto> updateChartData(@PathVariable Long id,
+      @RequestBody RequestSaveDataForm requestSaveDataForm) {
+    try {
+      return ResponseEntity.ok(chartDataService.updateChartData(id, requestSaveDataForm));
+    } catch (ChartDataException | CategoryException e) {
+      e.printStackTrace();
+      return ResponseEntity.badRequest().build();
+    }
+  }
 
   /****** DELETE ******/
 

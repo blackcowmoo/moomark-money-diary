@@ -86,17 +86,31 @@ public class ChartDataService {
 
 
   /***** UPDATE *****/
-//  @Transactional
-//  public ChartDataDto updateChartData(ChartDataDto chartDataDto) throws ChartDataException {
-//    ChartData chartData = chartDataRepository.findById(chartDataDto.getId()).orElseThrow(
-//        () -> new ChartDataException(ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getErrorCode(),
-//            ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getMsg())
-//    );
-//
-//    chartData.updateChartData(chartDataDto);
-//
-//    return new ChartDataDto(chartData);
-//  }
+  @Transactional
+  public ChartDataDto updateChartData(Long id, RequestSaveDataForm requestSaveDataForm)
+      throws ChartDataException, CategoryException {
+    ChartData chartData = chartDataRepository.findById(id).orElseThrow(
+        () -> new ChartDataException(ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getErrorCode(),
+            ChartDataErrorCode.CANNOT_FOUND_CHART_DATA.getMsg())
+    );
+
+    Category category = categoryRepository.findCategoryByName(requestSaveDataForm.getCategoryName())
+        .orElseThrow(() -> new CategoryException(CategoryErrorCode.CANNOT_FOUND_CATEGORY.getErrorCode(),
+            CategoryErrorCode.CANNOT_FOUND_CATEGORY.getMsg()));
+
+    ChartDataDto chartDataDto = ChartDataDto.builder()
+        .id(id)
+        .money(requestSaveDataForm.getMoney())
+        .memo(requestSaveDataForm.getMemo())
+        .informationTime(requestSaveDataForm.getInformationTime())
+        .itemName(requestSaveDataForm.getItemName())
+        .category(CategoryDto.of(category))
+        .build();
+
+    chartData.updateChartData(chartDataDto);
+
+    return ChartDataDto.of(chartData);
+  }
 
   /***** DELETE *****/
   @Transactional
