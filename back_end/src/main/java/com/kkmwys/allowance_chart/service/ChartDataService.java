@@ -85,7 +85,16 @@ public class ChartDataService {
   }
 
 
-  /***** UPDATE *****/
+  /****************************** UPDATE ****************************/
+
+  /***
+   * Data update 함수
+   * @param id Data ID 정보
+   * @param requestSaveDataForm request data 정보
+   * @return Chart data DTO
+   * @throws ChartDataException
+   * @throws CategoryException
+   */
   @Transactional
   public ChartDataDto updateChartData(Long id, RequestSaveDataForm requestSaveDataForm)
       throws ChartDataException, CategoryException {
