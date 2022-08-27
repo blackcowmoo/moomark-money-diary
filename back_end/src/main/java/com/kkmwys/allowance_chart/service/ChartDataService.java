@@ -11,7 +11,6 @@ import com.kkmwys.allowance_chart.exception.code.CategoryErrorCode;
 import com.kkmwys.allowance_chart.exception.code.ChartDataErrorCode;
 import com.kkmwys.allowance_chart.repository.CategoryRepository;
 import com.kkmwys.allowance_chart.repository.ChartDataRepository;
-import com.kkmwys.allowance_chart.repository.DataCategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,6 @@ public class ChartDataService {
 
   private final ChartDataRepository chartDataRepository;
   private final CategoryRepository categoryRepository;
-  private final DataCategoryRepository dataCategoryRepository;
 
   /***** SAVE *****/
   @Transactional
@@ -85,7 +83,6 @@ public class ChartDataService {
   }
 
 
-  /****************************** UPDATE ****************************/
 
   /***
    * Data update 함수
