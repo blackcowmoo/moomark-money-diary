@@ -67,7 +67,7 @@ public class ChartDataController {
 
   @GetMapping("/chart/data/category/type/{type}")
   public ResponseEntity<List<ChartDataDto>> getChartDataByCategoryType(@PathVariable String type) {
-    return ResponseEntity.ok(chartDataService.getchartDataListByCategoryType(type));
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryType(type));
   }
 
   /****** PUT ******/

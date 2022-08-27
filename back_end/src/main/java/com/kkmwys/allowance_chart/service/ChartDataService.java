@@ -79,7 +79,7 @@ public class ChartDataService {
     return chartDataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
   }
 
-  public List<ChartDataDto> getchartDataListByCategoryType(String type) {
+  public List<ChartDataDto> getChartDataListByCategoryType(String type) {
     List<ChartData> chartdataList = chartDataRepository.findChartDataByCategoryType(type);
     return chartdataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
   }
@@ -121,7 +121,7 @@ public class ChartDataService {
     return ChartDataDto.of(chartData);
   }
 
-  /***** DELETE *****/
+  /************************************** DELETE **********************************/
   @Transactional
   public void deleteChartData(Long id) throws ChartDataException {
     ChartData chartData = chartDataRepository.findById(id).orElseThrow(
