@@ -2,15 +2,12 @@ package com.kkmwys.allowance_chart.data.dto;
 
 import com.kkmwys.allowance_chart.domain.ChartData;
 import com.kkmwys.allowance_chart.utils.ModelMapperUtils;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter
@@ -23,7 +20,7 @@ public class ChartDataDto {
   private int money;
   private String itemName;
   private String memo;
-  private LocalDateTime informationTime;
+  private LocalDate informationTime;
   @Builder
   public ChartDataDto(ChartData chartData) {
     this.id = chartData.getId();

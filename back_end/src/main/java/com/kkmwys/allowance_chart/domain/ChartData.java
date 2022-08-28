@@ -1,16 +1,13 @@
 package com.kkmwys.allowance_chart.domain;
 
 import com.kkmwys.allowance_chart.data.dto.ChartDataDto;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,10 +30,10 @@ public class  ChartData {
 
   private String memo;
 
-  private LocalDateTime informationTime;
+  private LocalDate informationTime;
 
   @Builder
-  public ChartData(Long id, int money, String itemName, String memo, LocalDateTime informationTime, Category category){
+  public ChartData(Long id, int money, String itemName, String memo, LocalDate informationTime, Category category){
     this.id = id;
     this.money = money;
     this.itemName = itemName;
