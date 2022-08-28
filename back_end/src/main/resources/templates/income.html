@@ -149,7 +149,7 @@
         <a id="modal_close_btn" class="modal_close_btn">exit</a>
       </div>
       <div class="content">
-        <form id="contact-form" action="" method="post" class="tm-contact-form mx-auto">
+        <form id="contact-form" action="" class="tm-contact-form mx-auto">
           <div class="form-group">
             <input type="text" id="item" name="item" class="form-control rounded-0"
                    placeholder="item" required/>
@@ -168,11 +168,11 @@
             </select>
           </div>
           <div class="form-group">
-            <textarea rows="3" name="message" class="form-control rounded-0"
+            <textarea rows="3" id="message" name="message" class="form-control rounded-0"
                       placeholder="Message"></textarea>
           </div>
           <div class="form-group tm-text-right">
-            <button type="submit" class="btn btn-primary" onclick="saveAllowanceData()">Submit
+            <button type="button" class="btn btn-primary" onclick="saveAllowanceData()">Submit
             </button>
           </div>
         </form>
@@ -186,14 +186,14 @@
 
   $(window).on("load", function () {
     $('body').addClass('loaded');
+    getIncomeCategory();
   });
 
   const modal = document.getElementById('modal');
   const editBtn = document.getElementById('popup_open_btn');
-  const modalCloseBtn = document.getElementById('modal_close_btn');
 
+  const modalCloseBtn = document.getElementById('modal_close_btn');
   editBtn.addEventListener('click', ev => {
-    getIncomeCategory();
     modal.style.display = 'flex';
   })
 
@@ -221,17 +221,29 @@
     const data = {
       "itemName": document.getElementById('item').value,
       "money": document.getElementById('price').value,
-      "memo": document.getElementById('memo').value,
+      "memo": document.getElementById('message').value,
       "informationTime": document.getElementById('income_time').value,
+      "categoryName" : document.getElementById('category-select').value,
     }
 
-    alert(JSON.stringify(data));
+    $.ajax({
+      url: "/chart/data",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function(data) {
+        console.log("Save chart data is success");
+      }
+    }).done(function() {
+      console.log("Save chart function is end");
+    })
   }
 
   function getIncomeCategory() {
     $.ajax({
       url: "/category/list/income",
       type: "GET",
+      contentType : "application/json",
       success: function (data) {
         drawCategory(data);
       }
@@ -246,7 +258,7 @@
 
     for (let index in data) {
       let html_data = "";
-      html_data += "<option value='" + data[index].name + "'>" + data[index].name + "</option>";
+      html_data += "<option value='" + data[index].name +  "' id='" + data[index].name +  "'>" + data[index].name + "</option>";
       category_data.append(html_data);
     }
   }
