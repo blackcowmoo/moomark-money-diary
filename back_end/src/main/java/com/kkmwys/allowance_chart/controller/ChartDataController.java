@@ -65,9 +65,19 @@ public class ChartDataController {
     return ResponseEntity.ok(resultList);
   }
 
-  @GetMapping("/chart/data/category/type/{type}")
-  public ResponseEntity<List<ChartDataDto>> getChartDataByCategoryType(@PathVariable String type) {
-    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryType(type));
+  @GetMapping("/chart/data/category/type/income")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategoryIncomeType() {
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryType("income"));
+  }
+
+  @GetMapping("/chart/data/category/type/spending")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategorySpendingType() {
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryType("spending"));
+  }
+
+  @GetMapping("/chart/data/category/type/{name}")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategoryName(@PathVariable String name) {
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryName(name));
   }
 
   /****** PUT ******/

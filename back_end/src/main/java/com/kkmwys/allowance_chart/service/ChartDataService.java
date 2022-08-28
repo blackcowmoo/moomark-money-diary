@@ -78,8 +78,13 @@ public class ChartDataService {
   }
 
   public List<ChartDataDto> getChartDataListByCategoryType(String type) {
-    List<ChartData> chartdataList = chartDataRepository.findChartDataByCategoryType(type);
-    return chartdataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
+    List<ChartData> chartDataList = chartDataRepository.findChartDataByCategoryType(type);
+    return chartDataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
+  }
+
+  public List<ChartDataDto> getChartDataListByCategoryName(String name) {
+    List<ChartData> chartDataList = chartDataRepository.findChartDataByCategoryName(name);
+    return chartDataList.stream().map(ChartDataDto::of).collect(Collectors.toList());
   }
 
 
