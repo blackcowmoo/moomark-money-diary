@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-public class  ChartData {
+public class ChartData {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
