@@ -2,6 +2,7 @@ package com.kkmwys.allowance_chart.controller;
 
 import com.kkmwys.allowance_chart.data.dto.CategoryDto;
 import com.kkmwys.allowance_chart.data.dto.ChartDataDto;
+import com.kkmwys.allowance_chart.data.form.request.RequestSaveDataForm;
 import com.kkmwys.allowance_chart.exception.CategoryException;
 import com.kkmwys.allowance_chart.exception.ChartDataException;
 import com.kkmwys.allowance_chart.service.ChartDataService;
@@ -22,7 +23,35 @@ public class ChartDataController {
 
   private final ChartDataService chartDataService;
 
+  /****** POST ******/
+  @PostMapping("chart/data")
+  public ResponseEntity<ChartDataDto> saveChartData(@RequestBody RequestSaveDataForm saveDataForm) {
+    ChartDataDto resultDto = null;
+    try {
+      resultDto = chartDataService.saveChartData(saveDataForm);
+    } catch (CategoryException e) {
+      e.printStackTrace();
+      ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok(resultDto);
+  }
+
+
   /****** GET ******/
+  @GetMapping("chart/data/all")
+  public ResponseEntity<List<ChartDataDto>> getChartDataList() {
+    return ResponseEntity.ok(chartDataService.getAllChartData());
+  }
+
+  @GetMapping("/chart/data/{id}")
+  public ResponseEntity<ChartDataDto> getChartDataById(@PathVariable Long id) {
+    try {
+      return ResponseEntity.ok(chartDataService.getChartDataById(id));
+    } catch (ChartDataException e) {
+      e.printStackTrace();
+      return ResponseEntity.badRequest().build();
+    }
+  }
 
   @GetMapping("/chart/data/category")
   public ResponseEntity<List<ChartDataDto>> getChartDataByCategory(CategoryDto categoryDto) {
@@ -36,42 +65,29 @@ public class ChartDataController {
     return ResponseEntity.ok(resultList);
   }
 
-  @GetMapping("/chart/data/{id}")
-  public ResponseEntity<ChartDataDto> getChartDataById(@PathVariable Long id) {
-    try {
-      return ResponseEntity.ok(chartDataService.getChartDataById(id));
-    } catch (ChartDataException e) {
-      e.printStackTrace();
-      return ResponseEntity.badRequest().build();
-    }
+  @GetMapping("/chart/data/category/type/income")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategoryIncomeType() {
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryType("income"));
   }
 
-  @GetMapping("chart/data/all")
-  public ResponseEntity<List<ChartDataDto>> getChartDataList() {
-    return ResponseEntity.ok(chartDataService.getAllChartData());
+  @GetMapping("/chart/data/category/type/spending")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategorySpendingType() {
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryType("spending"));
   }
 
-  /****** POST ******/
-
-  @PostMapping("chart/data")
-  public ResponseEntity<ChartDataDto> saveChartData(@RequestBody ChartDataDto chartDataDto) {
-    ChartDataDto resultDto = null;
-    try {
-      resultDto = chartDataService.saveChartData(chartDataDto);
-    } catch (CategoryException e) {
-      e.printStackTrace();
-      ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.ok(resultDto);
+  @GetMapping("/chart/data/category/type/{name}")
+  public ResponseEntity<List<ChartDataDto>> getChartDataByCategoryName(@PathVariable String name) {
+    return ResponseEntity.ok(chartDataService.getChartDataListByCategoryName(name));
   }
 
   /****** PUT ******/
 
-  @PutMapping("chart/data")
-  public ResponseEntity<ChartDataDto> updateChartData(@RequestBody ChartDataDto chartDataDto) {
+  @PutMapping("chart/data/{id}")
+  public ResponseEntity<ChartDataDto> updateChartData(@PathVariable Long id,
+      @RequestBody RequestSaveDataForm requestSaveDataForm) {
     try {
-      return ResponseEntity.ok(chartDataService.updateChartData(chartDataDto));
-    } catch (ChartDataException e) {
+      return ResponseEntity.ok(chartDataService.updateChartData(id, requestSaveDataForm));
+    } catch (ChartDataException | CategoryException e) {
       e.printStackTrace();
       return ResponseEntity.badRequest().build();
     }

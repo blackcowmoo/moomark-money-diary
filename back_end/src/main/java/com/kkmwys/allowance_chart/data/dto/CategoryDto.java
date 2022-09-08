@@ -22,7 +22,7 @@ public class CategoryDto {
   private Long id;
   private String name;
   private String type;
-  public static CategoryDto convertToDto(Category category) {
+  public static CategoryDto of(Category category) {
     if(category == null) {
       return new CategoryDto();
     }

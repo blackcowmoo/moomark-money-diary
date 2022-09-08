@@ -1,14 +1,13 @@
 package com.kkmwys.allowance_chart.domain;
 
 import com.kkmwys.allowance_chart.data.dto.ChartDataDto;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +21,8 @@ public class ChartData {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToMany(mappedBy = "chartData")
-  private List<DataCategory> dataCategories;
+  @ManyToOne(fetch = FetchType.EAGER)
+  private Category category;
 
   private int money;
 
@@ -31,31 +30,22 @@ public class ChartData {
 
   private String memo;
 
-  private LocalDateTime localDateTime;
+  private LocalDate informationTime;
 
   @Builder
-  public ChartData(Long id, int money, String itemName, String memo, LocalDateTime localDateTime){
+  public ChartData(Long id, int money, String itemName, String memo, LocalDate informationTime, Category category){
     this.id = id;
     this.money = money;
     this.itemName = itemName;
     this.memo = memo;
-    this.localDateTime = localDateTime;
-    this.dataCategories = new ArrayList<>();
+    this.informationTime = informationTime;
+    this.category = category;
   }
-
-  public void setDataCategory(List<DataCategory> dataCategory) {
-    this.dataCategories = dataCategory;
-  }
-
   public void updateChartData(ChartDataDto chartDataDto) {
     this.money = chartDataDto.getMoney();
     this.itemName = chartDataDto.getItemName();
+    this.category.updateInfo(chartDataDto.getCategory());
   }
-
-  public void addDataCategory(DataCategory dataCategory) {
-    this.dataCategories.add(dataCategory);
-  }
-
 
   @Override
   public String toString() {
@@ -64,7 +54,7 @@ public class ChartData {
         "money = " + money + ", " +
         "itemName = " + itemName + ", " +
         "memo = " + memo + ", " +
-        "localDateTime = " + localDateTime + ")";
+        "informationTime = " + informationTime + ")";
   }
 }
 

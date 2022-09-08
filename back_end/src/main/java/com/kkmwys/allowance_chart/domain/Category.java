@@ -25,10 +25,10 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-
   private String type;
-  @OneToMany(mappedBy = "category")
-  private List<DataCategory> dataCategory;
+
+  @OneToMany(mappedBy = "id")
+  private List<ChartData> chartData;
 
   public Category(CategoryDto categoryDto) {
     this.id = categoryDto.getId();
@@ -38,10 +38,6 @@ public class Category {
 
   public void updateInfo(CategoryDto categoryDto) {
     this.name = categoryDto.getName();
-  }
-
-  public void addDataCategory(DataCategory dataCategory) {
-    this.dataCategory.add(dataCategory);
   }
 
   @Override
