@@ -2,9 +2,10 @@ package com.kkmwys.allowance_chart.service;
 
 import com.kkmwys.allowance_chart.domain.ChartData;
 import com.kkmwys.allowance_chart.repository.ChartDataRepository;
-import java.util.ArrayList;
+import com.kkmwys.allowance_chart.utils.Converter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,15 +21,16 @@ public class StatisticsService {
   private static final String INCOME = "income";
   private static final String SPENDING = "spending";
 
+  public int getTotalIncomeWhileMonth(LocalDate start, LocalDate end) {
+    int result = 0;
+    LocalDateTime startTime = Converter.toLocalDateTime(start);
+    LocalDateTime endTime = Converter.toLocalDateTime(end);
+    List<ChartData> chartDataList = chartDataRepository.findChartDataByInformationTimeBetween(startTime, endTime);
 
-  public List<ChartData> getTotalIncomeWhileMonth(int month) {
-    List<ChartData> chartDataList = chartDataRepository.findChartDataByCategoryType(INCOME);
-    return chartDataList.stream()
-        .filter(chartData -> chartData.getInformationTime().getDayOfMonth() == month)
-        .collect(Collectors.toList());
+    for (ChartData chartData : chartDataList) {
+      result += chartData.getMoney();
+    }
+
+    return result;
   }
-
-//  public void getTotalSpendingWhileMonth() {
-//
-//  }
 }
