@@ -10,9 +10,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ChartDataRepository extends JpaRepository<ChartData, Long> {
+
   List<ChartData> findChartDataByCategory(Category category);
 
-  List<ChartData> findChartDataByInformationTimeBetween(LocalDateTime start, LocalDateTime end);
+  @Query(value = "select SUM(d.money) from ChartData d Join d.category c WHERE c.type LIKE %?1% AND d.informationTime between ?2 AND ?3")
+  int findChartDataByCategoryTypeAndInformationTimeBetween(String type,
+      LocalDate informationTime,
+      LocalDate informationTime2);
 
   @Query(value = "select d from ChartData d JOIN d.category c WHERE c.type LIKE %?1%")
   List<ChartData> findChartDataByCategoryType(String type);
