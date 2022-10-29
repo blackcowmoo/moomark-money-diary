@@ -1,6 +1,7 @@
 package com.kkmwys.allowance_chart.data.dto;
 
 import com.kkmwys.allowance_chart.domain.Category;
+import com.kkmwys.allowance_chart.domain.CategoryType;
 import com.kkmwys.allowance_chart.utils.ModelMapperUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,7 @@ public class CategoryDto {
 
   private Long id;
   private String name;
-  private String type;
+  private CategoryType type;
   public static CategoryDto of(Category category) {
     if(category == null) {
       return new CategoryDto();

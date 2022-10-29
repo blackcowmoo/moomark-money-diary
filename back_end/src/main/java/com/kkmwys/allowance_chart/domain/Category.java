@@ -25,7 +25,7 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  private String type;
+  private CategoryType type;
 
   @OneToMany(mappedBy = "id")
   private List<ChartData> chartData;
