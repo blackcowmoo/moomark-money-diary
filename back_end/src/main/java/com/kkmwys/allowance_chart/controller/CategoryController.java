@@ -1,6 +1,7 @@
 package com.kkmwys.allowance_chart.controller;
 
 import com.kkmwys.allowance_chart.data.dto.CategoryDto;
+import com.kkmwys.allowance_chart.domain.CategoryType;
 import com.kkmwys.allowance_chart.exception.CategoryException;
 import com.kkmwys.allowance_chart.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +42,7 @@ public class CategoryController {
   @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
   @GetMapping("/list/income")
   public ResponseEntity<List<CategoryDto>> getIncomeCategoryDtoList() {
-    return ResponseEntity.ok(categoryService.getCategoryListByType("income"));
+    return ResponseEntity.ok(categoryService.getCategoryListByType(CategoryType.INCOME));
   }
 
   @Operation(summary = "Get category list by spending", description = "Get category list by spending")
@@ -51,7 +52,7 @@ public class CategoryController {
   @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
   @GetMapping("/list/spending")
   public ResponseEntity<List<CategoryDto>> getSpendingCategoryDtoList() {
-    return ResponseEntity.ok(categoryService.getCategoryListByType("spending"));
+    return ResponseEntity.ok(categoryService.getCategoryListByType(CategoryType.SPENDING));
   }
 
   @Operation(summary = "Save category info", description = "Save category info")

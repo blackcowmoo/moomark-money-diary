@@ -2,6 +2,7 @@ package com.kkmwys.allowance_chart.repository;
 
 import com.kkmwys.allowance_chart.domain.Category;
 import com.kkmwys.allowance_chart.domain.CategoryType;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,8 +39,27 @@ class CategoryRepositoryTest {
   }
 
   @Test
-  @DisplayName("Category 정보 조회 함수")
+  @DisplayName("Category type 기반 정보 조회 함수")
   void getCategoryById() {
+    Category category = Category.builder()
+        .id(1L)
+        .type(CategoryType.INCOME)
+        .name("salary")
+        .build();
 
+    Category secondCategory = Category.builder()
+        .id(1L)
+        .type(CategoryType.INCOME)
+        .name("second")
+        .build();
+
+    categoryRepository.save(category);
+    categoryRepository.save(secondCategory);
+
+    List<Category> categories = categoryRepository.findCategoriesByType(CategoryType.INCOME);
+
+    for (Category category1 : categories) {
+      Assertions.assertThat(category1.getType()).isEqualTo(CategoryType.INCOME);
+    }
   }
 }
