@@ -37,8 +37,15 @@ public class CategoryService {
           CategoryErrorCode.ALREADY_EXIST_CATEGORY.getMsg());
     }
 
-    Category savedCategory = categoryRepository.save(new Category(categoryDto));
-    return CategoryDto.of(savedCategory);
+    for (CategoryType type : CategoryType.values()) {
+      if (categoryDto.getType().equals(type)) {
+        Category savedCategory = categoryRepository.save(new Category(categoryDto));
+        return CategoryDto.of(savedCategory);
+      }
+    }
+
+    throw new CategoryException(CategoryErrorCode.INVALID_CATEGORY_TYPE.getErrorCode(),
+        CategoryErrorCode.INVALID_CATEGORY_TYPE.getMsg());
   }
 
   public List<CategoryDto> getCategoryList() {
@@ -48,7 +55,7 @@ public class CategoryService {
 
   public List<CategoryDto> getCategoryListByType(CategoryType type) {
     List<Category> categories = categoryRepository.findCategoriesByType(type);
-    if(categories == null || categories.isEmpty()) {
+    if (categories == null || categories.isEmpty()) {
       return new ArrayList<>();
     }
     return categories.stream().map(CategoryDto::of).collect(Collectors.toList());

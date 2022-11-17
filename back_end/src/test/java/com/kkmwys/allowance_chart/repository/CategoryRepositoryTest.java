@@ -21,14 +21,15 @@ class CategoryRepositoryTest {
   @Autowired
   private CategoryRepository categoryRepository;
 
+  private static final String CATEGORY_NAME = "salary";
 
   @Test
-  @DisplayName("Category 정보 저장 테스트")
+  @DisplayName("Category 정보 ID 기반 조회 테스트")
   void saveCategory() {
     Category category = Category.builder()
         .id(1L)
         .type(CategoryType.INCOME)
-        .name("salary")
+        .name(CATEGORY_NAME)
         .build();
 
     categoryRepository.save(category);
@@ -39,27 +40,34 @@ class CategoryRepositoryTest {
   }
 
   @Test
-  @DisplayName("Category type 기반 정보 조회 함수")
-  void getCategoryById() {
-    Category category = Category.builder()
+  @DisplayName("Category 정보 타입 기반 조회 테스트")
+  void getCategoryByType() {
+    Category firstCategory = Category.builder()
         .id(1L)
         .type(CategoryType.INCOME)
-        .name("salary")
+        .name("First Category")
         .build();
-
     Category secondCategory = Category.builder()
         .id(1L)
         .type(CategoryType.INCOME)
-        .name("second")
+        .name("Second Category")
+        .build();
+    Category thirdCategory = Category.builder()
+        .id(1L)
+        .type(CategoryType.SPENDING)
+        .name("Third Category")
         .build();
 
-    categoryRepository.save(category);
+    categoryRepository.save(firstCategory);
     categoryRepository.save(secondCategory);
+    categoryRepository.save(thirdCategory);
 
-    List<Category> categories = categoryRepository.findCategoriesByType(CategoryType.INCOME);
+    List<Category> savedCategoryList = categoryRepository.findCategoriesByType(CategoryType.INCOME);
 
-    for (Category category1 : categories) {
-      Assertions.assertThat(category1.getType()).isEqualTo(CategoryType.INCOME);
+    Assertions.assertThat(savedCategoryList).hasSize(2);
+    for (Category category : savedCategoryList) {
+      Assertions.assertThat(category.getType()).isEqualTo(CategoryType.INCOME);
     }
   }
+
 }

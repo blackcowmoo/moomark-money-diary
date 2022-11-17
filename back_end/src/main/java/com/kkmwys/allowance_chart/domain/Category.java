@@ -1,8 +1,12 @@
 package com.kkmwys.allowance_chart.domain;
 
+import com.kkmwys.allowance_chart.config.CategoryTypeConverter;
 import com.kkmwys.allowance_chart.data.dto.CategoryDto;
 import java.util.List;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +29,8 @@ public class Category {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+//  @Enumerated(EnumType.STRING)
+  @Convert(converter = CategoryTypeConverter.class)
   private CategoryType type;
 
   @OneToMany(mappedBy = "id")

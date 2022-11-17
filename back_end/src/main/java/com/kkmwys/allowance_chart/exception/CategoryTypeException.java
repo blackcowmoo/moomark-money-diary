@@ -1,15 +1,15 @@
 package com.kkmwys.allowance_chart.exception;
 
-public class ChartDataException extends Exception {
+public class CategoryTypeException extends IllegalAccessException {
 
   private final int errorCode;
 
-  public ChartDataException(int errorCode, String msg) {
+  public CategoryTypeException(int errorCode, String msg) {
     super(msg);
     this.errorCode = errorCode;
   }
 
-  public Integer getErrorCode() {
+  public int getErrorCode() {
     return this.errorCode;
   }
 }
