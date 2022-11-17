@@ -64,7 +64,6 @@ class CategoryRepositoryTest {
 
     List<Category> savedCategoryList = categoryRepository.findCategoriesByType(CategoryType.INCOME);
 
-    Assertions.assertThat(savedCategoryList).hasSize(2);
     for (Category category : savedCategoryList) {
       Assertions.assertThat(category.getType()).isEqualTo(CategoryType.INCOME);
     }
